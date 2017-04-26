@@ -12,13 +12,13 @@
 
 #include "../includes/lem-in.h"
 
-t_lem	*set_struct()
+t_lem	*set_struct(char *line)
 {
 	t_lem *lem;
 
 	if (!(lem = (t_lem*)malloc(sizeof(t_lem))))
 		return (NULL);
-	lem->ants = 0;
+	lem->ants = ft_atoi(line);
 	lem->l = 0;
 	lem->pass = 0;
 	lem->pass2 = 0;
@@ -32,13 +32,15 @@ int		main(void)
 	char	*line;
 	t_lem	*lem;
 
-	lem = set_struct();
 	if (get_next_line(0, &line) == -1)
 	{
 		ft_printf("Error\n");
 		exit(1);
 	}
-	lem->ants = ft_atoi(line);
+	while (*line == '#' && ft_strcmp(line, "##start") != 0 
+		&& ft_strcmp(line, "##end") != 0)
+		get_next_line(0, &line);
+	lem = set_struct(line);
 	if (lem->ants <= 0 || lem->ants >= 2147483647)
 	{
 		ft_printf("Error: No ants MTF\n");
@@ -46,7 +48,5 @@ int		main(void)
 	}
 	parse(line, lem);
 	free(lem);
-	while (1)
-		;
 	return (0);
 }

@@ -32,7 +32,7 @@ void	print_anthill(t_tube *tube, t_room *room, t_lem *lem)
 	}
 }
 
-void	ft_error2(char *line, int u)
+void	ft_error(char *line, int u)
 {
 	if (u == 0 && (line[0] == 'L' || line[0] == '#'))
 	{
@@ -51,12 +51,6 @@ void	ft_error2(char *line, int u)
 	}
 }
 
-void	ft_error(void)
-{
-	ft_printf("Error: T'as rien a foutre la toi !\n");
-	exit(1);
-}
-
 void	error(t_room *room, t_tube *tube, t_lem *lem)
 {
 	check_room(room);
@@ -67,7 +61,7 @@ void	error(t_room *room, t_tube *tube, t_lem *lem)
 	}
 	if (lem->pass2 == 0)
 	{
-		ft_printf("Error: Pas de ligne d'arriver ou en retard comme le lapin ?");
+		ft_printf("Error: Pas de ligne d'arriver ou en retard comme le lapin ?\n");
 		exit(1);
 	}
 	if (!tube)
