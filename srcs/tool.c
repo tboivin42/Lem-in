@@ -14,7 +14,7 @@
 
 void	print_anthill(t_tube *tube, t_room *room, t_lem *lem)
 {	
-	ft_printf("%d\n", lem->ants);
+	ft_printf("\n%d\n", lem->ants);
 	while (room)
 	{
 		if (room->start == 1)
@@ -35,38 +35,17 @@ void	print_anthill(t_tube *tube, t_room *room, t_lem *lem)
 void	ft_error(char *line, int u)
 {
 	if (u == 0 && (line[0] == 'L' || line[0] == '#'))
-	{
-		ft_printf("Error: Fallait pas mettre de 'L' ou de '#' aujourd'hui\n");
-		exit(1);
-	}
+		ft_exit("Error: Fallait pas mettre de 'L' ou de '#' aujourd'hui");
 	else if (u == 1 && (*line == 'L' || *line == '#'))
-	{
-		ft_printf("Error: C'est pas la bonne entree\n");
-		exit(1);
-	}
+		ft_exit("Error: C'est pas la bonne entree");
 	else if (u == 2 && (*line == 'L' || *line == '#'))
-	{
-		ft_printf("Error: C'est pas la bonne sortie\n");
-		exit(1);
-	}
+		ft_exit("Error: C'est pas la bonne sortie");
 }
 
-void	error(t_room *room, t_tube *tube, t_lem *lem)
+void	error(t_room *room, t_tube *tube)
 {
+	(void)tube;
 	check_room(room);
-	if (lem->pass == 0)
-	{
-		ft_printf("Error: Ca n'en finit donc jamais ? #marvel\n");
-		exit(1);
-	}
-	if (lem->pass2 == 0)
-	{
-		ft_printf("Error: Pas de ligne d'arriver ou en retard comme le lapin ?\n");
-		exit(1);
-	}
 	if (!tube)
-	{
-		ft_printf("Error: Mario a voler tout les tubes ?\n");
-		exit (1);
-	}
+		ft_exit("Error: Mario a voler tout les tubes ?");
 }

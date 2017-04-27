@@ -33,6 +33,7 @@ typedef struct 			s_tube
 
 typedef	struct			s_lem
 {
+	int					start_tube;
 	int 				l;
 	int					pass;
 	int					pass2;
@@ -46,7 +47,7 @@ void					check_room(t_room *room);
 int 					chr_tube(t_lem *lem, char *line);
 int						chr_room(char *line);
 void					print_anthill(t_tube *tube, t_room *room, t_lem *lem);
-void					error(t_room *room, t_tube *tube, t_lem *lem);
+void					error(t_room *room, t_tube *tube);
 void					parse(char *line, t_lem *lem);
 void					add_room(t_room **new, char *line, int start);
 void					add_tube(t_tube **new, char *line, t_lem *lem);

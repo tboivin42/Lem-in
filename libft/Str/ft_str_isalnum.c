@@ -1,23 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*   ft_str_isalnum.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tboivin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/06 17:01:59 by tboivin           #+#    #+#             */
-/*   Updated: 2016/11/08 05:02:49 by tboivin          ###   ########.fr       */
+/*   Created: 2017/04/27 23:59:23 by tboivin           #+#    #+#             */
+/*   Updated: 2017/04/27 23:59:24 by tboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_isalnum(int c)
+int		ft_str_isalnum(char *str)
 {
-	return (ft_isalpha(c) || ft_isdigit(c));
+	size_t i;
+
+	i = 0;
+	while (ft_isalnum(str[i]))
+		i++;
+	if (i == ft_strlen(str))
+		return (1);
+	else
+		return (0);
 }
 
-int		ft_isalnum_lem(int c)
+int		ft_str_isalnum_lem(char *str)
 {
-	return (ft_isalpha(c) || ft_isdigit(c) || c == 45);
+	size_t i;
+
+	i = 0;
+	while (ft_isalnum_lem(str[i]))
+		i++;
+	if (i == ft_strlen(str))
+		return (1);
+	else
+		return (0);
 }

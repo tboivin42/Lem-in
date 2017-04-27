@@ -110,5 +110,6 @@ int				get_next_line(int const fd, char **line)
 			return (1);
 		}
 	}
+	ft_putstr(*line);
 	return ((rd || **line) ? 1 : 0);
 }

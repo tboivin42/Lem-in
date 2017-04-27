@@ -55,6 +55,7 @@ void	add_tube(t_tube **new, char *line, t_lem *lem)
 	t_tube *tmp;
 
 	tmp = (*new);
+	lem->start_tube = 1;
 	if (lem->pass == 0)
 		ft_exit("Error: Ca n'en finit donc jamais ? #marvel");
 	if (lem->pass2 == 0)

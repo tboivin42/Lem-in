@@ -55,6 +55,12 @@ int					ft_isprint(int c);
 int					ft_toupper(int c);
 int					ft_tolower(int c);
 void				ft_exit(char *str);
+int					ft_strccmp(const char *s1, const char *s2, int c);
+size_t				ft_strclen(const char *s, int c);
+int					ft_str_isdigit(char *str);
+int					ft_str_isalnum(char *str);
+int					ft_isalnum_lem(int c);
+int					ft_str_isalnum_lem(char *str);
 
 void				*ft_memalloc(size_t size);
 void				ft_memdel(void **ap);

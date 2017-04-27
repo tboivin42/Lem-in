@@ -12,7 +12,11 @@
 
 NAME	= lem-in
 
-SRC		= srcs/main.c srcs/add_lists.c srcs/parse.c srcs/tool.c srcs/check.c
+SRC		= srcs/main.c \
+		  srcs/add_lists.c \
+		  srcs/parse.c \
+		  srcs/tool.c \
+		  srcs/check.c \
 
 OBJ		= $(SRC:.c=.o)
 

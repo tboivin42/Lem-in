@@ -24,7 +24,7 @@ void	check_room(t_room *room)
 			if (tmp->next)
 			{
 				if (*room->line != '#' && *tmp->next->line != '#' &&
-					ft_strcmp(room->line, tmp->next->line) == 0)
+					ft_strccmp(room->line, tmp->next->line, ' ') == 0)
 				{
 					ft_printf("[%s] [%s]\n", tmp->next->line, room->line);
 					ft_exit("Error: Identical room");
@@ -45,8 +45,7 @@ int 	chr_tube(t_lem *lem, char *line)
 	i = 0;
 	while (line[i] != '\0')
 	{
-		if (line[i] == '-' && (ft_isalnum(line[i + 1]))
-			&& ft_isalnum(line[i - 1]))
+		if (line[i] == '-' && (ft_str_isalnum_lem(line)))
 			return (1);
 		i++;
 	}
@@ -66,9 +65,9 @@ int		chr_room(char *line)
 		ft_exit("Error: Tabulation");
 	while (str[j] != NULL && str[i] != NULL)
 	{
-		if (ft_isdigit(str[j][0]) && j != 2)
+		if (ft_str_isdigit(str[j]) && j != 2)
 		{
-			if (ft_isdigit(str[2][0]))
+			if (ft_str_isdigit(str[2]))
 				j++;
 		}
 		i++;

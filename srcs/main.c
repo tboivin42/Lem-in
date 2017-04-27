@@ -18,6 +18,7 @@ t_lem	*set_struct(char *line)
 
 	if (!(lem = (t_lem*)malloc(sizeof(t_lem))))
 		return (NULL);
+	lem->start_tube = 0;
 	lem->ants = ft_atoi(line);
 	lem->l = 0;
 	lem->pass = 0;
