@@ -27,8 +27,7 @@ void	check_room(t_room *room)
 					ft_strcmp(room->line, tmp->next->line) == 0)
 				{
 					ft_printf("[%s] [%s]\n", tmp->next->line, room->line);
-					ft_printf("C'est faux ARCHIFAUX");
-					exit(1);
+					ft_exit("Error: Identical room");
 				}
 			}
 			tmp = tmp->next;
@@ -63,6 +62,8 @@ int		chr_room(char *line)
 	j = 1;
 	i = 0;
 	str = ft_strsplit(line, ' ');
+	if (*str[0] == '\t')
+		ft_exit("Error: Tabulation");
 	while (str[j] != NULL && str[i] != NULL)
 	{
 		if (ft_isdigit(str[j][0]) && j != 2)

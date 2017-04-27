@@ -34,7 +34,7 @@ int		main(void)
 
 	if (get_next_line(0, &line) == -1)
 	{
-		ft_printf("Error\n");
+		ft_printf("Error: Not good files\n");
 		exit(1);
 	}
 	while (*line == '#' && ft_strcmp(line, "##start") != 0 
@@ -43,7 +43,7 @@ int		main(void)
 	lem = set_struct(line);
 	if (lem->ants <= 0 || lem->ants >= 2147483647)
 	{
-		ft_printf("Error: No ants MTF\n");
+		ft_printf("Error: False ants\n");
 		exit(1);
 	}
 	parse(line, lem);

@@ -12,16 +12,17 @@
 
 #include "../includes/lem-in.h"
 
-void	path3(t_room **room, char *line, t_lem *lem)
+void	path3(t_room **room, char *line, t_lem *lem, t_tube **tube)
 {
-	(void)lem;
 	if (chr_room(line) == 1)
 	{
 		ft_error(line, 0);
 		add_room(room, line, 0);
 	}
-	// else if (chr_tube(lem, line) == 0)
-	// 	ft_exit("Error: T'as rien a foutre la toi !");
+	if (chr_tube(lem, line) == 1)
+		add_tube(tube, line, lem);
+	else if (chr_tube(lem, line) == 0 && chr_room(line) == 0)
+		ft_exit("Error: T'as rien a foutre la toi !");
 }
 
 void	path2(t_room **room, char *line, t_lem *lem)
@@ -39,7 +40,7 @@ void	path2(t_room **room, char *line, t_lem *lem)
 	}
 }
 
-void	path(t_room **room, char *line, t_lem *lem)
+void	path(t_room **room, char *line, t_lem *lem, t_tube **tube)
 {
 	while (*line == '#')
 	{
@@ -53,13 +54,12 @@ void	path(t_room **room, char *line, t_lem *lem)
 				ft_error(line, 2);
 				add_room(room, line, 2);
 			}
-			// else if (chr_tube(lem, line) == 0 && chr_room(line) == 0)
-			// 	ft_exit("Error: T'as rien a foutre la toi !");
 		}
 		path2(room, line, lem);
 		get_next_line(0, &line);
 	}
-	path3(room, line, lem);
+	if (*line)
+		path3(room, line, lem, tube);
 }
 
 void	parse(char *line, t_lem *lem)
@@ -72,10 +72,13 @@ void	parse(char *line, t_lem *lem)
 	while (get_next_line(0, &line))
 	{
 		if (*line == '#')
-			path(&room, line, lem);
-		else if (ft_strchr(line, '-') && chr_tube(lem, line) == 1)
-			add_tube(&tube, line, lem);
-		else if (chr_room(line) == 1)
+			path(&room, line, lem, &tube);
+		else if (ft_strchr(line, '-'))
+		{
+			if (chr_tube(lem, line) == 1)
+				add_tube(&tube, line, lem);
+		}
+		else if (*line && chr_room(line) == 1)
 		{
 			ft_error(line, 0);
 			add_room(&room, line, 0);

@@ -26,7 +26,7 @@ t_tube	*create_tube(char *line)
 t_room	*create_room(char *line, int start)
 {
 	t_room *new;
-
+ 
 	if (!(new = (t_room*)malloc(sizeof(t_room))))
 		return (NULL);
 	new->line = line;
@@ -40,8 +40,6 @@ void	add_room(t_room **new, char *line, int start)
 	t_room *tmp;
 
 	tmp = (*new);
-	if (tmp && tmp->line == line)
-		ft_exit("T'as rien a foutre la toi !");
 	if (!(*new))
 	{
 		(*new) = create_room(line, start);
@@ -58,7 +56,7 @@ void	add_tube(t_tube **new, char *line, t_lem *lem)
 
 	tmp = (*new);
 	if (lem->pass == 0)
-		ft_exit("Ca n'en finit donc jamais ? #marvel");
+		ft_exit("Error: Ca n'en finit donc jamais ? #marvel");
 	if (lem->pass2 == 0)
 		ft_exit("Error: Je suis parti en pause");
 	if (!(*new))
