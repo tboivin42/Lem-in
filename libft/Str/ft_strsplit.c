@@ -12,102 +12,74 @@
 
 #include "libft.h"
 
-static int	ft_strsplit_count(char const *s, char c)
+
+static int		nb_word(char const *s, char c)
 {
-	int i;
-	int d;
-	int word;
+	int			i;
+	int			k;
 
+	k = 0;
 	i = 0;
-	d = 0;
-	word = 0;
-	while (s[i] != '\0')
-		if (s[i++] != c)
-		{
-			if (d == 0)
-			{
-				d = 1;
-				word++;
-			}
-		}
-		else
-			d = 0;
-	return (word);
-}
-
-static int	ft_strsplit_length(char const *s, char c, int cword)
-{
-	int i;
-	int d;
-	int word;
-	int length;
-
-	length = 0;
-	i = 0;
-	d = 0;
-	word = 0;
+	while (s[i] == c && s[i])
+		i++;
 	while (s[i])
-		if (s[i++] != c)
-		{
-			if (d == 0)
-			{
-				d = 1;
-				word++;
-			}
-			if (d == 1 && word == cword)
-				length++;
-		}
-		else
-			d = 0;
-	return (length);
-}
-
-static int	ft_strsplit_start(char const *s, char c, int cword)
-{
-	int i;
-	int d;
-	int word;
-
-	i = 0;
-	d = 0;
-	word = 0;
-	while (s[i])
-		if (s[i++] != c)
-		{
-			if (d == 0)
-			{
-				d = 1;
-				word++;
-				if (word == cword)
-					return (i - 1);
-			}
-		}
-		else
-			d = 0;
-	return (0);
-}
-
-char		**ft_strsplit(char const *s, char c)
-{
-	char	**tab;
-	int		nbword;
-	int		i;
-	int		start;
-	int		length;
-
-	if (s == NULL)
-		return (NULL);
-	nbword = ft_strsplit_count(s, c);
-	if (!(tab = malloc(sizeof(char*) * (nbword + 1))))
-		return (NULL);
-	i = 0;
-	while (i < nbword)
 	{
-		start = ft_strsplit_start(s, c, i + 1);
-		length = ft_strsplit_length(s, c, i + 1);
-		tab[i] = ft_strsub(s, (unsigned int)start, (size_t)length);
+		if (s[i] != c)
+			k++;
+		while (s[i] != c && s[i])
+			i++;
+		if (s[i] == c)
+			i++;
+	}
+	return (k);
+}
+
+static char		*nblet(char const *s, char c, const int j)
+{
+	int			i;
+	int			k;
+	int			m;
+	int			o;
+
+	m = j;
+	k = 0;
+	i = 0;
+	while (m >= 0)
+	{
+		while (s[i] && s[i] == c)
+			i++;
+		while (s[i] && s[i] != c && m > 0)
+			i++;
+		m--;
+	}
+	o = i;
+	while (s[i] != c && s[i])
+	{
+		k++;
 		i++;
 	}
-	tab[i] = NULL;
+	return (ft_strsub(s, o, k));
+}
+
+char			**ft_strsplit(char const *s, char c)
+{
+	int			i;
+	char		**tab;
+	int			j;
+
+	if (!s)
+		return (NULL);
+	j = 0;
+	i = nb_word(s, c);
+	if (!(tab = (char **)ft_memalloc(sizeof(char *) * (i + 1))))
+		return (NULL);
+	while (i)
+	{
+		tab[j] = nblet(s, c, j);
+		i--;
+		j++;
+	}
+	tab[j] = 0;
 	return (tab);
 }
+
