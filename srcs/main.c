@@ -48,6 +48,6 @@ int		main(void)
 		exit(1);
 	}
 	parse(line, lem);
-	free(lem);
+	// free(lem);
 	return (0);
 }

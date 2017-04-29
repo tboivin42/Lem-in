@@ -18,7 +18,7 @@
 
 typedef struct  		s_room
 {
-	char 				*line;
+	char 				*name;
 	int					end;
 	int					start;
 	struct s_room		*next;
@@ -27,7 +27,7 @@ typedef struct  		s_room
 typedef struct 			s_tube
 {
 	t_room				*room;
-	char				*line;
+	char				*name;
 	struct s_tube		*next;
 }						t_tube;
 
@@ -42,14 +42,15 @@ typedef	struct			s_lem
 	char				*end;
 }						t_lem;
 
+int 					search_way(char **s, t_room *room);
 void					ft_error(char *line, int u);
 void					check_room(t_room *room);
 int 					chr_tube(t_lem *lem, char *line);
 int						chr_room(char *line);
 void					print_anthill(t_tube *tube, t_room *room, t_lem *lem);
-void					error(t_room *room, t_tube *tube);
+void					error(t_room *room, t_lem *lem, char **s);
 void					parse(char *line, t_lem *lem);
 void					add_room(t_room **new, char *line, int start);
-void					add_tube(t_tube **new, char *line, t_lem *lem);
+void					add_tube(t_tube **new, char *line, t_lem *lem, t_room *room);
 
 #endif

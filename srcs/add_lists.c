@@ -12,14 +12,14 @@
 
 #include "../includes/lem-in.h"
 
-t_tube	*create_tube(char *line)
+t_tube	*create_tube(char *name, t_tube *tube)
 {
 	t_tube *new;
 
 	if (!(new = (t_tube*)malloc(sizeof(t_tube))))
 		return (NULL);
-	new->line = line;
-	new->next = NULL;
+	new->name = name;
+	new->next = tube;
 	return (new);
 }
 
@@ -29,7 +29,7 @@ t_room	*create_room(char *line, int start)
  
 	if (!(new = (t_room*)malloc(sizeof(t_room))))
 		return (NULL);
-	new->line = line;
+	new->name = line;
 	new->start = start;
 	new->next = NULL;
 	return (new);
@@ -50,22 +50,36 @@ void	add_room(t_room **new, char *line, int start)
 	tmp->next = create_room(line, start);
 }
 
-void	add_tube(t_tube **new, char *line, t_lem *lem)
+void	add_tube(t_tube **new, char *line, t_lem *lem, t_room *room)
 {
-	t_tube *tmp;
+	t_tube 	*tmp;
+	char 	**s;
+	int i;
 
-	tmp = (*new);
+	i = 0;
 	lem->start_tube = 1;
-	if (lem->pass == 0)
-		ft_exit("Error: Ca n'en finit donc jamais ? #marvel");
-	if (lem->pass2 == 0)
-		ft_exit("Error: Je suis parti en pause");
-	if (!(*new))
-	{
-		(*new) = create_tube(line);
-		return ;
-	}
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = create_tube(line);
+	tmp = (*new);
+	s = ft_strsplit(line, '-');
+	error(room, lem, s);
+	if (search_way(s, room) == 0)
+		ft_exit("Error: No way");
+	// if (!(*new))
+	// {
+	// 	while (room)
+	// 	{
+	// 		if (room->start == 1)
+	// 			break ;
+	// 		room = room->next;
+	// 	}
+	// 	(*new) = create_tube(room->name, NULL);
+	// }
+	// while (*new)
+	// {
+	// 	ft_printf("%s\n", (*new)->name);
+	// 	*new = (*new)->next;
+	// }
+	// while (tmp->next)
+	// 	tmp = tmp->next;
+	// tmp->next = create_tube(room);
+	// exit(1);
 }

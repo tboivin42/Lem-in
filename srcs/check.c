@@ -23,10 +23,10 @@ void	check_room(t_room *room)
 		{
 			if (tmp->next)
 			{
-				if (*room->line != '#' && *tmp->next->line != '#' &&
-					ft_strccmp(room->line, tmp->next->line, ' ') == 0)
+				if (*room->name != '#' && *tmp->next->name != '#' &&
+					ft_strccmp(room->name, tmp->next->name, ' ') == 0)
 				{
-					ft_printf("[%s] [%s]\n", tmp->next->line, room->line);
+					ft_printf("[%s] [%s]\n", tmp->next->name, room->name);
 					ft_exit("Error: Identical room");
 				}
 			}
@@ -37,6 +37,7 @@ void	check_room(t_room *room)
 	free(tmp);
 }
 
+/* **	FONCTION A PEUT-ETRE SUPPRIMER **
 int 	chr_tube(t_lem *lem, char *line)
 {
 	int i;
@@ -45,12 +46,13 @@ int 	chr_tube(t_lem *lem, char *line)
 	i = 0;
 	while (line[i] != '\0')
 	{
-		if (line[i] == '-' && (ft_str_isalnum_lem(line)))
+		if (line[i] == '-' && (ft_str_isascii(line)))
 			return (1);
 		i++;
 	}
 	return (0);
 }
+** */
 
 int		chr_room(char *line)
 {

@@ -12,26 +12,6 @@
 
 #include "../includes/lem-in.h"
 
-void	print_anthill(t_tube *tube, t_room *room, t_lem *lem)
-{	
-	ft_printf("\n%d\n", lem->ants);
-	while (room)
-	{
-		if (room->start == 1)
-			ft_printf("[%s]\n", room->line);
-		else if (room->start == 2)
-			ft_printf("[%s]\n", room->line);
-		else
-			ft_printf("%s\n", room->line);
-		room = room->next;
-	}
-	while (tube)
-	{
-		ft_printf("%s\n", tube->line);
-		tube = tube->next;
-	}
-}
-
 void	ft_error(char *line, int u)
 {
 	if (u == 0 && (line[0] == 'L' || line[0] == '#'))
@@ -42,10 +22,50 @@ void	ft_error(char *line, int u)
 		ft_exit("Error: C'est pas la bonne sortie");
 }
 
-void	error(t_room *room, t_tube *tube)
+void	error(t_room *room, t_lem *lem, char **s)
 {
-	(void)tube;
 	check_room(room);
-	if (!tube)
-		ft_exit("Error: Mario a voler tout les tubes ?");
+	if (lem->pass == 0)
+		ft_exit("Error: Ca n'en finit donc jamais ? #marvel");
+	if (lem->pass2 == 0)
+		ft_exit("Error: Je suis parti en pause");
+	if (!s)
+		ft_exit("Error: Mario a voler tout les tubes");
+	if (!s[0] || !s[1] || s[2])
+		ft_exit("Error: Not a tube");
+}
+
+int		search_way(char **s, t_room *room)
+{
+	int i;
+	static int index;
+	t_room *tmp;
+
+	tmp = room;
+	i = 0;
+	while (tmp)
+	{
+		if (ft_strcccmp(tmp->name, s[0], ' ') == 0)
+		{
+			i++;
+			if (tmp->start == 1 || tmp->start == 2)
+				index++;
+			break ;
+		}
+		tmp = tmp->next;
+	}
+	tmp = room;
+	while (tmp)
+	{
+		if (ft_strcccmp(tmp->name, s[1], ' ') == 0)
+		{
+			i++;
+			if (tmp->start == 1 || tmp->start == 2)
+				index++;
+			break ;
+		}
+		tmp = tmp->next;
+	}
+	ft_printf("[%d]\n", index);
+	return (i == 2);
 }

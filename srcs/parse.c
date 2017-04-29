@@ -19,9 +19,9 @@ void	path3(t_room **room, char *line, t_lem *lem, t_tube **tube)
 		ft_error(line, 0);
 		add_room(room, line, 0);
 	}
-	if (chr_tube(lem, line) == 1)
-		add_tube(tube, line, lem);
-	else if (chr_tube(lem, line) == 0 && chr_room(line) == 0)
+	else if (chr_room(line) == 0 && ft_strchr(line, '-'))
+		add_tube(tube, line, lem, *room);
+	else
 		ft_exit("Path3: Error: T'as rien a foutre la toi !");
 }
 
@@ -37,8 +37,7 @@ void	path2(t_room **room, char *line, t_lem *lem)
 			ft_error(line, 1);
 			add_room(room, line, 1);
 		}
-		else if ((*line != '#' && chr_room(line) == 0) ||
-		 chr_tube(lem, line) == 1)
+		else if ((*line != '#' && chr_room(line) == 0))
 			ft_exit("Path2: Error: T'as rien a foutre la toi !");
 	}
 }
@@ -57,8 +56,7 @@ void	path(t_room **room, char *line, t_lem *lem, t_tube **tube)
 				ft_error(line, 2);
 				add_room(room, line, 2);
 			}
-			else if ((*line != '#' && chr_room(line) == 0) ||
-			 chr_tube(lem, line) == 1)
+			else if ((*line != '#' && chr_room(line) == 0))
 				ft_exit("Path: Error: T'as rien a foutre la toi !");
 		}
 		path2(room, line, lem);
@@ -79,9 +77,8 @@ void	parse(char *line, t_lem *lem)
 	{
 		if (*line == '#')
 			path(&room, line, lem, &tube);
-		else if (*line && ft_strchr(line, '-') && 
-			chr_tube(lem, line) == 1)
-				add_tube(&tube, line, lem);
+		else if (*line && ft_strchr(line, '-'))
+			add_tube(&tube, line, lem, room);
 		else if (*line && chr_room(line) == 1)
 		{
 			if (lem->start_tube == 1)
@@ -92,12 +89,5 @@ void	parse(char *line, t_lem *lem)
 		else
 			ft_exit("Parse: Error: T'as rien a foutre la toi !");
 	}
-	error(room, tube);
-	ft_putchar('\n');
-	// while(room)
-	// {
-	// 	ft_printf("[%s]\n",room->line);
-	// 	room = room->next;
-	// }
-	// print_anthill(tube, room, lem);
+	// ft_putchar('\n');
 }
