@@ -12,7 +12,7 @@
 
 #include "../includes/lem-in.h"
 
-void	path3(t_room **room, char *line, t_lem *lem, t_tube **tube)
+void	path3(t_room **room, char *line, t_lem *lem)
 {
 	if (chr_room(line) == 1)
 	{
@@ -20,13 +20,14 @@ void	path3(t_room **room, char *line, t_lem *lem, t_tube **tube)
 		add_room(room, line, 0);
 	}
 	else if (chr_room(line) == 0 && ft_strchr(line, '-'))
-		add_tube(tube, line, lem, *room);
+		add_tube(line, lem, *room);
 	else
 		ft_exit("Path3: Error: T'as rien a foutre la toi !");
 }
 
 void	path2(t_room **room, char *line, t_lem *lem)
 {
+	
 	while (ft_strcmp(line, "##start") == 0)
 	{
 		while (ft_strcmp(line, "##end") != 0 && *line == '#')
@@ -42,7 +43,7 @@ void	path2(t_room **room, char *line, t_lem *lem)
 	}
 }
 
-void	path(t_room **room, char *line, t_lem *lem, t_tube **tube)
+void	path(t_room **room, char *line, t_lem *lem)
 {
 	while (*line == '#')
 	{
@@ -63,7 +64,7 @@ void	path(t_room **room, char *line, t_lem *lem, t_tube **tube)
 		get_next_line(0, &line);
 	}
 	if (*line)
-		path3(room, line, lem, tube);
+		path3(room, line, lem);
 }
 
 void	parse(char *line, t_lem *lem)
@@ -76,9 +77,9 @@ void	parse(char *line, t_lem *lem)
 	while (get_next_line(0, &line))
 	{
 		if (*line == '#')
-			path(&room, line, lem, &tube);
+			path(&room, line, lem);
 		else if (*line && ft_strchr(line, '-'))
-			add_tube(&tube, line, lem, room);
+			add_tube(line, lem, room);
 		else if (*line && chr_room(line) == 1)
 		{
 			if (lem->start_tube == 1)
@@ -89,5 +90,35 @@ void	parse(char *line, t_lem *lem)
 		else
 			ft_exit("Parse: Error: T'as rien a foutre la toi !");
 	}
-	// ft_putchar('\n');
+	int i = 1;
+	while(room)
+	{
+		// ft_printf("[%s]\n",room->name);
+		if (room->start == 1)
+		{
+			ft_printf("L%d-%s\n", i, room->name);
+			// ft_printf("%s\n", room->name);
+			// ft_printf("\t{%s}\n", room->tube->room->name);
+			i++;
+		}
+		else if (room->start == 0)
+		{
+			ft_printf("L%d-%s\n", i, room->name);
+			// ft_printf("%s\n", room->name);
+			// ft_printf("\t{%s}\n", room->tube->room->name);
+			i++;
+		}
+		else if (room->start == 2)
+		{
+			ft_printf("L%d-%s\n", i, room->name);
+			return ;
+			// ft_;printf("%s\n", rooroom->tube->room->name);
+		}
+		// while (room->tube)
+		// {
+		// 	// ft_printf("\t{%s}\n",room->tube->room->name);
+		// 	room->tube = room->tube->next;
+		// }
+		room = room->next;
+	}
 }

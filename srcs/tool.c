@@ -38,7 +38,8 @@ void	error(t_room *room, t_lem *lem, char **s)
 int		search_way(char **s, t_room *room)
 {
 	int i;
-	static int index;
+	// static int start;
+	// static int end;
 	t_room *tmp;
 
 	tmp = room;
@@ -48,8 +49,10 @@ int		search_way(char **s, t_room *room)
 		if (ft_strcccmp(tmp->name, s[0], ' ') == 0)
 		{
 			i++;
-			if (tmp->start == 1 || tmp->start == 2)
-				index++;
+			// if (tmp->start == 1)
+			// 	start++;
+			// if (tmp->start == 2)
+			// 	end++;
 			break ;
 		}
 		tmp = tmp->next;
@@ -60,12 +63,14 @@ int		search_way(char **s, t_room *room)
 		if (ft_strcccmp(tmp->name, s[1], ' ') == 0)
 		{
 			i++;
-			if (tmp->start == 1 || tmp->start == 2)
-				index++;
+			// if (tmp->start == 1)
+			// 	start++;
+			// if (tmp->start == 2)
+			// 	end++;
 			break ;
 		}
 		tmp = tmp->next;
 	}
-	ft_printf("[%d]\n", index);
+	// ft_printf("[%d | %d]\n", start, end);
 	return (i == 2);
 }

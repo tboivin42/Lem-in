@@ -34,7 +34,6 @@ void	check_room(t_room *room)
 		}
 		room = room->next;
 	}
-	free(tmp);
 }
 
 /* **	FONCTION A PEUT-ETRE SUPPRIMER **
@@ -65,6 +64,8 @@ int		chr_room(char *line)
 	str = ft_strsplit(line, ' ');
 	if (*str[0] == '\t')
 		ft_exit("Error: Tabulation");
+	if (!str[2])
+		return(0);
 	while (str[j] != NULL && str[i] != NULL)
 	{
 		if (ft_str_isdigit(str[j]) && j != 2)

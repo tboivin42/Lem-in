@@ -42,12 +42,11 @@ int		main(void)
 		&& ft_strcmp(line, "##end") != 0)
 		get_next_line(0, &line);
 	lem = set_struct(line);
-	if (lem->ants <= 0 || lem->ants >= 2147483647)
+	if (lem->ants <= 0 || lem->ants >= 2147483647 || *line == '-')
 	{
 		ft_printf("Error: False ants\n");
 		exit(1);
 	}
 	parse(line, lem);
-	// free(lem);
 	return (0);
 }

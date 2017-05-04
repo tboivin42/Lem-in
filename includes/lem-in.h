@@ -21,6 +21,7 @@ typedef struct  		s_room
 	char 				*name;
 	int					end;
 	int					start;
+	struct s_tube		*tube;
 	struct s_room		*next;
 }						t_room;
 
@@ -51,6 +52,6 @@ void					print_anthill(t_tube *tube, t_room *room, t_lem *lem);
 void					error(t_room *room, t_lem *lem, char **s);
 void					parse(char *line, t_lem *lem);
 void					add_room(t_room **new, char *line, int start);
-void					add_tube(t_tube **new, char *line, t_lem *lem, t_room *room);
+void					add_tube(char *line, t_lem *lem, t_room *room);
 
 #endif
