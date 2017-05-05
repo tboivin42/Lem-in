@@ -12,12 +12,19 @@
 
 #include "../includes/lem-in.h"
 
-t_tube	*create_tube(t_room *room)
+t_tube	*create_tube(t_room *room, int i)
 {
 	t_tube *new;
 
-	if (!(new = (t_tube*)malloc(sizeof(t_tube))))
-		return (NULL);
+	if (i == 1)
+	{
+		if (!(new = (t_tube*)malloc(sizeof(t_tube))))
+			return (NULL);
+		new->prev = NULL;
+	}
+	else
+		if (!(new = (t_tube*)malloc(sizeof(t_tube))))
+			return (NULL);
 	new->room = room;
 	new->next = NULL;
 	return (new);
@@ -29,8 +36,11 @@ t_room	*create_room(char *line, int start)
  
 	if (!(new = (t_room*)malloc(sizeof(t_room))))
 		return (NULL);
-	ft_memccpy(new->name, line, ' ', ft_strclen(line, ' '));
-	new->start = start;
+	new->name = ft_strsub(line, 0, ft_strclen(line, ' '));
+	new->room = (start == 0) ? 1 : 0;
+	new->start = (start == 1) ? 1 : 0;
+	new->end = (start == 2) ? 1 : 0;
+	new->path = 0;
 	new->tube = NULL;
 	new->next = NULL;
 	return (new);
@@ -54,16 +64,20 @@ void	add_room(t_room **new, char *line, int start)
 void 	add_back_tube(t_tube **new, t_room *room)
 {
 	t_tube *tmp;
+	int i;
 
+	i = 0;
 	tmp = (*new);
 	if (!(*new))
 	{
-		(*new) = create_tube(room);
+		i = 1;
+		(*new) = create_tube(room, i);
 		return ;
 	}
 	while (tmp->next)
 		tmp = tmp->next;
-	tmp->next = create_tube(room);
+	tmp->next = create_tube(room, i);
+	tmp->next->prev = tmp;
 }
 
 void	add_second_tube(t_room *full, char *s, t_room *room)
@@ -87,7 +101,6 @@ void	add_tube(char *line, t_lem *lem, t_room *room)
 
 	i = 0;
 	tmp = room;
-	// ft_putstr("\n\n\n\n");
 	lem->start_tube = 1;
 	s = ft_strsplit(line, '-');
 	error(room, lem, s);

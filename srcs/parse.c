@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/lem-in.h"
-
+#include <stdio.h>
 void	path3(t_room **room, char *line, t_lem *lem)
 {
 	if (chr_room(line) == 1)
@@ -90,35 +90,23 @@ void	parse(char *line, t_lem *lem)
 		else
 			ft_exit("Parse: Error: T'as rien a foutre la toi !");
 	}
-	int i = 1;
-	while(room)
+	while (room)
 	{
-		// ft_printf("[%s]\n",room->name);
-		if (room->start == 1)
+		ft_printf("[%s]\n", room->name);
+		while (room->tube->next)
 		{
-			ft_printf("L%d-%s\n", i, room->name);
-			// ft_printf("%s\n", room->name);
-			// ft_printf("\t{%s}\n", room->tube->room->name);
-			i++;
+			printf("next:   --->{%s}\n", room->tube->room->name);
+			room->tube = room->tube->next;
 		}
-		else if (room->start == 0)
+		while (room->tube)
 		{
-			ft_printf("L%d-%s\n", i, room->name);
-			// ft_printf("%s\n", room->name);
-			// ft_printf("\t{%s}\n", room->tube->room->name);
-			i++;
+			printf("prev:   --->{%s}\n", room->tube->room->name);
+			room->tube = room->tube->prev;
 		}
-		else if (room->start == 2)
-		{
-			ft_printf("L%d-%s\n", i, room->name);
-			return ;
-			// ft_;printf("%s\n", rooroom->tube->room->name);
-		}
-		// while (room->tube)
-		// {
-		// 	// ft_printf("\t{%s}\n",room->tube->room->name);
-		// 	room->tube = room->tube->next;
-		// }
 		room = room->next;
 	}
+	// if (lem->start_tube == 0)
+	// 	ft_exit("Error: No links");
+	// reso(room);
+
 }

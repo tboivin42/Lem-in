@@ -14,12 +14,12 @@
 # define LEM_IN_H
 #include "../libft/includes/libft.h"
 
-
-
 typedef struct  		s_room
 {
 	char 				*name;
 	int					end;
+	int					path;
+	int					room;
 	int					start;
 	struct s_tube		*tube;
 	struct s_room		*next;
@@ -30,6 +30,7 @@ typedef struct 			s_tube
 	t_room				*room;
 	char				*name;
 	struct s_tube		*next;
+	struct s_tube 		*prev;
 }						t_tube;
 
 typedef	struct			s_lem
@@ -43,6 +44,7 @@ typedef	struct			s_lem
 	char				*end;
 }						t_lem;
 
+void					reso(t_room *room);
 int 					search_way(char **s, t_room *room);
 void					ft_error(char *line, int u);
 void					check_room(t_room *room);

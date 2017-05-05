@@ -17,6 +17,7 @@ SRC		= srcs/main.c \
 		  srcs/parse.c \
 		  srcs/tool.c \
 		  srcs/check.c \
+		  srcs/path.c \
 
 OBJ		= $(SRC:.c=.o)
 
