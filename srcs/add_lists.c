@@ -12,18 +12,11 @@
 
 #include "../includes/lem-in.h"
 
-t_tube	*create_tube(t_room *room, int i)
+t_tube	*create_tube(t_room *room)
 {
 	t_tube *new;
 
-	if (i == 1)
-	{
-		if (!(new = (t_tube*)malloc(sizeof(t_tube))))
-			return (NULL);
-		new->prev = NULL;
-	}
-	else
-		if (!(new = (t_tube*)malloc(sizeof(t_tube))))
+	if (!(new = (t_tube*)malloc(sizeof(t_tube))))
 			return (NULL);
 	new->room = room;
 	new->next = NULL;
@@ -64,19 +57,17 @@ void	add_room(t_room **new, char *line, int start)
 void 	add_back_tube(t_tube **new, t_room *room)
 {
 	t_tube *tmp;
-	int i;
 
-	i = 0;
 	tmp = (*new);
 	if (!(*new))
 	{
-		i = 1;
-		(*new) = create_tube(room, i);
+		(*new) = create_tube(room);
+		(*new)->prev = NULL;
 		return ;
 	}
 	while (tmp->next)
 		tmp = tmp->next;
-	tmp->next = create_tube(room, i);
+	tmp->next = create_tube(room);
 	tmp->next->prev = tmp;
 }
 

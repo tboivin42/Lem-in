@@ -12,32 +12,53 @@
 
 #include "../includes/lem-in.h"
 
-void	test(t_room *room)
+void	if_end(t_room *room, t_room *tmp, t_lem *lem)
 {
-	// ft_printf("sakjfje\n");
-	while (room)
+	while (tmp)
 	{
-		ft_printf("[%s]\n", room->name);
-		if (room->start == 1)
-			ft_printf("--%d--\n", room->path);
-		room = room->next;
-	}
-}
-
-void reso_(t_room *room)
-{
-	while (room)
-	{
-		if (room->start == 1)
+		if (tmp->end == 1)
 		{
-			room->path = 1;
+			if (!ft_strcmp(room->name, tmp->name))
+			{
+				lem->tamere = 1;
+				ft_printf("%s\n", room->name);
+				return ;
+			}
 		}
-		room = room->next;
+		tmp = tmp->next;
 	}
+	room->path = 2;
 }
 
-void	reso(t_room *room)
+void	reso_(t_room *room, t_room *tmp, t_lem *lem)
 {
-	reso_(room);
-	test(room);
+	(void)tmp;
+	while (room->tube)
+	{
+		room->path = 1;
+		if (room->tube->room->path == 0)
+			room = room->tube->room;
+		else
+			room->tube = room->tube->next;
+	}
+	if_end(room, tmp, lem);
+}
+
+void	reso(t_lem *lem, t_room *room)
+{
+	t_room *tmp;
+	int i;
+
+	i = 0;
+	tmp = room;
+	while (room && room->start != 1)
+		room = room->next;
+	while (room->tube)
+	{
+		reso_(room, tmp, lem);
+		if (lem->tamere == 1)
+			break ;
+		else
+			room->tube = room->tube->next;
+	}
 }

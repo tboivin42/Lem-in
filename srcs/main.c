@@ -22,6 +22,7 @@ t_lem	*set_struct(char *line)
 	lem->ants = ft_atoi(line);
 	lem->l = 0;
 	lem->pass = 0;
+	lem->tamere = 0;
 	lem->pass2 = 0;
 	lem->start = NULL;
 	lem->end = NULL;

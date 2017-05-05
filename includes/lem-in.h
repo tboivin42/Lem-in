@@ -36,6 +36,7 @@ typedef struct 			s_tube
 typedef	struct			s_lem
 {
 	int					start_tube;
+	int					tamere;
 	int 				l;
 	int					pass;
 	int					pass2;
@@ -44,7 +45,7 @@ typedef	struct			s_lem
 	char				*end;
 }						t_lem;
 
-void					reso(t_room *room);
+void					reso(t_lem *lem, t_room *room);
 int 					search_way(char **s, t_room *room);
 void					ft_error(char *line, int u);
 void					check_room(t_room *room);

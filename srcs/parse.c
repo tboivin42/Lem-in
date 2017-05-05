@@ -67,6 +67,18 @@ void	path(t_room **room, char *line, t_lem *lem)
 		path3(room, line, lem);
 }
 
+void	print_room(t_room *room)
+{
+	ft_putendl("");
+	while (room)
+	{
+		ft_printf("[%s] {%d}\n", room->name, room->path);
+		while (room->tube)
+			room->tube = room->tube->next;
+		room = room->next;
+	}
+}
+
 void	parse(char *line, t_lem *lem)
 {
 	t_room	*room;
@@ -90,23 +102,9 @@ void	parse(char *line, t_lem *lem)
 		else
 			ft_exit("Parse: Error: T'as rien a foutre la toi !");
 	}
-	while (room)
-	{
-		ft_printf("[%s]\n", room->name);
-		while (room->tube->next)
-		{
-			printf("next:   --->{%s}\n", room->tube->room->name);
-			room->tube = room->tube->next;
-		}
-		while (room->tube)
-		{
-			printf("prev:   --->{%s}\n", room->tube->room->name);
-			room->tube = room->tube->prev;
-		}
-		room = room->next;
-	}
-	// if (lem->start_tube == 0)
-	// 	ft_exit("Error: No links");
-	// reso(room);
-
+	if (lem->start_tube == 0)
+		ft_exit("Error: No links");
+	ft_putendl("");
+	reso(lem, room);
+	print_room(room);
 }
