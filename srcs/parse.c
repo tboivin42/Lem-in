@@ -67,6 +67,28 @@ void	path(t_room **room, char *line, t_lem *lem)
 		path3(room, line, lem);
 }
 
+void	print_nb_ants(t_room *room, int i)
+{
+	ft_printf("L%d-%s\n", i, room->name);
+}
+
+void	print_ants(t_room *room)
+{
+	int i;
+
+	i = 1;
+	while (room && room->start != 1)
+		room = room->next;
+	while (room->tube->room->path == 1)
+	{
+		room = room->tube->room;
+		print_nb_ants(room, i);
+		// ft_printf("L%d-%s\n", 1, room->name);
+		if (room->end == 1)
+			break ;
+	}
+}
+
 void	print_room(t_room *room)
 {
 	ft_putendl("");
@@ -78,6 +100,7 @@ void	print_room(t_room *room)
 		room = room->next;
 	}
 }
+
 
 void	parse(char *line, t_lem *lem)
 {
@@ -107,4 +130,6 @@ void	parse(char *line, t_lem *lem)
 	ft_putendl("");
 	reso(lem, room);
 	print_room(room);
+	// ft_putendl("");
+	// print_ants(room);
 }

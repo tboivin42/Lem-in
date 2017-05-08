@@ -45,6 +45,7 @@ typedef	struct			s_lem
 	char				*end;
 }						t_lem;
 
+void					reso_(t_room *room, t_room *tmp, t_lem *lem);
 void					reso(t_lem *lem, t_room *room);
 int 					search_way(char **s, t_room *room);
 void					ft_error(char *line, int u);
