@@ -11,31 +11,40 @@
 /* ************************************************************************** */
 
 #include "../includes/lem-in.h"
-void algo_(t_room *room, t_room *begin)
+
+void algo_(t_room *room, t_room *begin, t_room *tmp)
 {
-	t_room *tmp;
+	t_room *tmp2;
 
-	while(room)
+	tmp2 = tmp;
+	while(room && (room->end != 1))
 	{
+		if (room->tube)
+		{
+			if (room->tube->room->path == 0)
+			{
+				room->path = 1;
+				room = room->tube->room;
+			}
+			else
+			{
+				while(room->tube && room->tube->room->path != 0)
+					room->tube = room->tube->next;
+				if (!room->tube)
+				{
+					room->path = 2;
+					while (tmp)
+					{
+						if (tmp->path == 1)
+							tmp->path = 0;
+						tmp = tmp->next;
+					}
+					tmp = tmp2;
+					room = begin;
+				}
+			}
+		}
 		ft_printf("[%s - %d]\n",room->name, room->path);
-		while(room->tube && room->tube->room->path != 0)
-		{
-			room->tube = room->tube->next;
-		}
-		if (!room->tube)
-		{
-			room->path = 2;
-			// room = begin;
-			ft_printf("Cul de sac a %s %d\n",room->name,room->path);
-			room = begin;
-		}
-		else if (room->tube)
-		{
-			room->path = 1;
-		ft_printf("[%s - %d]\n",room->name, room->path);
-			room = room->tube->room;
-		}
-
 	}
 }
 
@@ -51,5 +60,5 @@ void	reso(t_lem *lem, t_room *room)
 		room = room->next;
 	begin = room;
 	room->path = 0;	
-	algo_(room,begin);
+	algo_(room, begin, tmp);
 }
