@@ -12,73 +12,104 @@
 
 #include "libft.h"
 
-
-static int		nb_word(char const *s, char c)
+static int		ft_strsplit_count(char const *s, char c)
 {
-	int			i;
-	int			k;
+	int		i;
+	int		d;
+	int		word;
 
-	k = 0;
 	i = 0;
-	while (s[i] == c && s[i])
-		i++;
-	while (s[i])
-	{
-		if (s[i] != c)
-			k++;
-		while (s[i] != c && s[i])
-			i++;
-		if (s[i] == c)
-			i++;
-	}
-	return (k);
+	d = 0;
+	word = 0;
+	while (s[i] != '\0')
+		if (s[i++] != c)
+		{
+			if (d == 0)
+			{
+				d = 1;
+				word++;
+			}
+		}
+		else
+			d = 0;
+	return (word);
 }
 
-static char		*nblet(char const *s, char c, const int j)
+static int		ft_strsplit_length(char const *s, char c, int cword)
 {
-	int			i;
-	int			k;
-	int			m;
-	int			o;
+	int		i;
+	int		d;
+	int		word;
+	int		length;
 
-	m = j;
-	k = 0;
+	length = 0;
 	i = 0;
-	while (m >= 0)
-	{
-		while (s[i] && s[i] == c)
-			i++;
-		while (s[i] && s[i] != c && m > 0)
-			i++;
-		m--;
-	}
-	o = i;
-	while (s[i] != c && s[i])
-	{
-		k++;
-		i++;
-	}
-	return (ft_strsub(s, o, k));
+	d = 0;
+	word = 0;
+	while (s[i])
+		if (s[i++] != c)
+		{
+			if (d == 0)
+			{
+				d = 1;
+				word++;
+			}
+			if (d == 1 && word == cword)
+				length++;
+		}
+		else
+			d = 0;
+	return (length);
+}
+
+static int		ft_strsplit_start(char const *s, char c, int cword)
+{
+	int		i;
+	int		d;
+	int		word;
+	int		length;
+
+	length = 0;
+	i = 0;
+	d = 0;
+	word = 0;
+	while (s[i])
+		if (s[i++] != c)
+		{
+			if (d == 0)
+			{
+				d = 1;
+				word++;
+				if (word == cword)
+					return (i - 1);
+			}
+		}
+		else
+			d = 0;
+	return (length);
 }
 
 char			**ft_strsplit(char const *s, char c)
 {
-	int			i;
-	char		**tab;
-	int			j;
+	char	**tab;
+	int		nbword;
+	int		i;
+	int		start;
+	int		length;
 
-	if (!s)
+	if (s == NULL)
 		return (NULL);
-	j = 0;
-	i = nb_word(s, c);
-	if (!(tab = (char **)ft_memalloc(sizeof(char *) * (i + 1))))
+	nbword = ft_strsplit_count(s, c);
+	if (!(tab = malloc(sizeof(char*) * (nbword + 1))))
 		return (NULL);
-	while (i)
+	i = 0;
+	while (i < nbword)
 	{
-		tab[j] = nblet(s, c, j);
-		i--;
-		j++;
+		start = ft_strsplit_start(s, c, i + 1);
+		length = ft_strsplit_length(s, c, i + 1);
+		tab[i] = ft_strsub(s, (unsigned int)start, (size_t)length);
+		i++;
 	}
-	tab[j] = 0;
+	tab[i] = NULL;
 	return (tab);
 }

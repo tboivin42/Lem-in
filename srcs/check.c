@@ -12,29 +12,39 @@
 
 #include "../includes/lem-in.h"
 
-void	check_room(t_room *room)
-{
-	t_room *tmp;
+// void	check_room(t_room *room)
+// {
+// 	t_room *tmp;
+// 	size_t ok;
+// 	size_t ok1;
 
-	while (room->next)
-	{
-		tmp = room;
-		while (tmp)
-		{
-			if (tmp->next)
-			{
-				if (*room->name != '#' && *tmp->next->name != '#' &&
-					ft_strccmp(room->name, tmp->next->name, ' ') == 0)
-				{
-					ft_printf("[%s] [%s]\n", tmp->next->name, room->name);
-					ft_exit("Error: Identical room");
-				}
-			}
-			tmp = tmp->next;
-		}
-		room = room->next;
-	}
-}
+// 	ok = 0;
+// 	ok1 = 0;
+
+// 	while (room->next)
+// 	{
+// 		tmp = room;
+// 		while (tmp)
+// 		{
+// 			if (tmp->next)
+// 			{
+// 				if (*room->name != '#' && *tmp->next->name != '#' &&
+// 					ft_strccmp(room->name, tmp->next->name, ' ') == 0)
+// 				{
+// 					ft_printf("[%s] [%s]\n", tmp->next->name, room->name);
+// 					ft_exit("Error: Identical room");
+// 				}
+// 			}
+// 			ok++;
+// 			tmp = tmp->next;
+// 		}
+// 		ok1++;
+// 		room = room->next;
+// 	}
+// 	ok += ok1;
+// 	ft_putnbr(ok);
+// 	exit(0);
+// }
 
 /* **	FONCTION A PEUT-ETRE SUPPRIMER **
 int 	chr_tube(t_lem *lem, char *line)
@@ -53,7 +63,18 @@ int 	chr_tube(t_lem *lem, char *line)
 }
 ** */
 
-int		chr_room(char *line)
+int checkIfSame(t_room *room, char *newRoom)
+{
+	while (room)
+	{
+		if (!ft_strcmp(room->name, newRoom))
+			return (1);
+		room = room->next;
+	}
+	return (0);
+}
+
+int		chr_room(char *line, t_room *room)
 {
 	int i;
 	int j;
@@ -66,6 +87,8 @@ int		chr_room(char *line)
 		ft_exit("Error: Tabulation");
 	if (!str[2])
 		return(0);
+	if (room && checkIfSame(room, str[0]))
+		ft_exit("Room already declared");
 	while (str[j] != NULL && str[i] != NULL)
 	{
 		if (ft_str_isdigit(str[j]) && j != 2)

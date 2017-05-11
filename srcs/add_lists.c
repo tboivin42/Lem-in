@@ -99,6 +99,7 @@ void	add_tube(char *line, t_lem *lem, t_room *room)
 		ft_exit("Error: No way");
 	while (room)
 	{
+
 		if (!ft_strcmp(room->name, s[0]))
 			add_second_tube(tmp, s[1], room);
 		room = room->next;

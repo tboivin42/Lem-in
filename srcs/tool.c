@@ -24,7 +24,6 @@ void	ft_error(char *line, int u)
 
 void	error(t_room *room, t_lem *lem, char **s)
 {
-	check_room(room);
 	if (lem->pass == 0)
 		ft_exit("Error: Ca n'en finit donc jamais ? #marvel");
 	if (lem->pass2 == 0)

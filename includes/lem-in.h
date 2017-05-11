@@ -46,12 +46,12 @@ typedef	struct			s_lem
 }						t_lem;
 
 void					reso_(t_room *room, t_room *tmp, t_lem *lem);
-void					reso(t_lem *lem, t_room *room);
+void					reso(t_room *room);
 int 					search_way(char **s, t_room *room);
 void					ft_error(char *line, int u);
 void					check_room(t_room *room);
 int 					chr_tube(t_lem *lem, char *line);
-int						chr_room(char *line);
+int						chr_room(char *line, t_room *room);
 void					print_anthill(t_tube *tube, t_room *room, t_lem *lem);
 void					error(t_room *room, t_lem *lem, char **s);
 void					parse(char *line, t_lem *lem);

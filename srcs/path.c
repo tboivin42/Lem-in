@@ -12,7 +12,18 @@
 
 #include "../includes/lem-in.h"
 
-void algo_(t_room *room, t_room *begin, t_room *tmp)
+void	algo_(t_room *tmp, t_room *tmp2)
+{
+	while (tmp)
+	{
+		if (tmp->path == 1)
+			tmp->path = 0;
+		tmp = tmp->next;
+	}
+	tmp = tmp2;
+}
+
+void	algo(t_room *room, t_room *begin, t_room *tmp)
 {
 	t_room *tmp2;
 
@@ -33,22 +44,18 @@ void algo_(t_room *room, t_room *begin, t_room *tmp)
 				if (!room->tube)
 				{
 					room->path = 2;
-					while (tmp)
-					{
-						if (tmp->path == 1)
-							tmp->path = 0;
-						tmp = tmp->next;
-					}
-					tmp = tmp2;
+					algo_(tmp, tmp2);
 					room = begin;
 				}
 			}
 		}
-		ft_printf("[%s - %d]\n",room->name, room->path);
+		// ft_printf("[%s - %d]\n",room->name, room->path);
 	}
+	if (room->end == 1)
+		room->path = 1;
 }
 
-void	reso(t_lem *lem, t_room *room)
+void	reso(t_room *room)
 {
 	t_room *tmp;
 	t_room *begin;
@@ -60,5 +67,5 @@ void	reso(t_lem *lem, t_room *room)
 		room = room->next;
 	begin = room;
 	room->path = 0;	
-	algo_(room, begin, tmp);
+	algo(room, begin, tmp);
 }
