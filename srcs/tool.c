@@ -12,6 +12,17 @@
 
 #include "../includes/lem-in.h"
 
+t_tube	*create_tube(t_room *room)
+{
+	t_tube *new;
+
+	if (!(new = (t_tube*)malloc(sizeof(t_tube))))
+		return (NULL);
+	new->room = room;
+	new->next = NULL;
+	return (new);
+}
+
 void	ft_error(char *line, int u)
 {
 	if (u == 0 && (line[0] == 'L' || line[0] == '#'))
@@ -22,7 +33,7 @@ void	ft_error(char *line, int u)
 		ft_exit("Error: C'est pas la bonne sortie");
 }
 
-void	error(t_room *room, t_lem *lem, char **s)
+void	error(t_lem *lem, char **s)
 {
 	if (lem->pass == 0)
 		ft_exit("Error: Ca n'en finit donc jamais ? #marvel");
@@ -36,8 +47,8 @@ void	error(t_room *room, t_lem *lem, char **s)
 
 int		search_way(char **s, t_room *room)
 {
-	int i;
-	t_room *tmp;
+	int		i;
+	t_room	*tmp;
 
 	tmp = room;
 	i = 0;

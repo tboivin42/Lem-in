@@ -12,23 +12,25 @@
 
 #include "../includes/lem-in.h"
 
-void	algo_(t_room *tmp, t_room *tmp2)
+void	src_path_(t_room **room, t_room **tmp, t_room *tmp2, t_room *begin)
 {
-	while (tmp)
+	(*room)->path = 2;
+	while (*tmp)
 	{
-		if (tmp->path == 1)
-			tmp->path = 0;
-		tmp = tmp->next;
+		if ((*tmp)->path == 1)
+			(*tmp)->path = 0;
+		*tmp = (*tmp)->next;
 	}
-	tmp = tmp2;
+	*tmp = tmp2;
+	*room = begin;
 }
 
-void	algo(t_room *room, t_room *begin, t_room *tmp)
+void	src_path(t_room *room, t_room *begin, t_room *tmp)
 {
 	t_room *tmp2;
 
 	tmp2 = tmp;
-	while(room && (room->end != 1))
+	while (room && (room->end != 1))
 	{
 		if (room->tube)
 		{
@@ -39,17 +41,12 @@ void	algo(t_room *room, t_room *begin, t_room *tmp)
 			}
 			else
 			{
-				while(room->tube && room->tube->room->path != 0)
+				while (room->tube && room->tube->room->path != 0)
 					room->tube = room->tube->next;
 				if (!room->tube)
-				{
-					room->path = 2;
-					algo_(tmp, tmp2);
-					room = begin;
-				}
+					src_path_(&room, &tmp, tmp2, begin);
 			}
 		}
-		// ft_printf("[%s - %d]\n",room->name, room->path);
 	}
 	if (room->end == 1)
 		room->path = 1;
@@ -57,15 +54,15 @@ void	algo(t_room *room, t_room *begin, t_room *tmp)
 
 void	reso(t_room *room)
 {
-	t_room *tmp;
-	t_room *begin;
-	int i;
+	t_room	*tmp;
+	t_room	*begin;
+	int		i;
 
 	i = 0;
 	tmp = room;
 	while (room && room->start != 1)
 		room = room->next;
 	begin = room;
-	room->path = 0;	
-	algo(room, begin, tmp);
+	room->path = 0;
+	src_path(room, begin, tmp);
 }

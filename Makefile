@@ -21,7 +21,7 @@ SRC		= srcs/main.c \
 
 OBJ		= $(SRC:.c=.o)
 
-CFLAGS	= -Wall -Wextra  -g -I includes/
+CFLAGS	= -Wall -Wextra -Werror -g -I includes/
 
 $(NAME): $(OBJ)
 	@make -C libft

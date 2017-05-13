@@ -12,21 +12,10 @@
 
 #include "../includes/lem-in.h"
 
-t_tube	*create_tube(t_room *room)
-{
-	t_tube *new;
-
-	if (!(new = (t_tube*)malloc(sizeof(t_tube))))
-			return (NULL);
-	new->room = room;
-	new->next = NULL;
-	return (new);
-}
-
 t_room	*create_room(char *line, int start)
 {
 	t_room *new;
- 
+
 	if (!(new = (t_room*)malloc(sizeof(t_room))))
 		return (NULL);
 	new->name = ft_strsub(line, 0, ft_strclen(line, ' '));
@@ -54,7 +43,7 @@ void	add_room(t_room **new, char *line, int start)
 	tmp->next = create_room(line, start);
 }
 
-void 	add_back_tube(t_tube **new, t_room *room)
+void	add_back_tube(t_tube **new, t_room *room)
 {
 	t_tube *tmp;
 
@@ -86,20 +75,19 @@ void	add_second_tube(t_room *full, char *s, t_room *room)
 
 void	add_tube(char *line, t_lem *lem, t_room *room)
 {
-	t_room *tmp;
-	char 	**s;
-	int i;
+	t_room	*tmp;
+	char	**s;
+	int		i;
 
 	i = 0;
 	tmp = room;
 	lem->start_tube = 1;
 	s = ft_strsplit(line, '-');
-	error(room, lem, s);
+	error(lem, s);
 	if (search_way(s, room) == 0)
 		ft_exit("Error: No way");
 	while (room)
 	{
-
 		if (!ft_strcmp(room->name, s[0]))
 			add_second_tube(tmp, s[1], room);
 		room = room->next;

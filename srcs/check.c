@@ -12,73 +12,76 @@
 
 #include "../includes/lem-in.h"
 
-// void	check_room(t_room *room)
-// {
-// 	t_room *tmp;
-// 	size_t ok;
-// 	size_t ok1;
-
-// 	ok = 0;
-// 	ok1 = 0;
-
-// 	while (room->next)
-// 	{
-// 		tmp = room;
-// 		while (tmp)
-// 		{
-// 			if (tmp->next)
-// 			{
-// 				if (*room->name != '#' && *tmp->next->name != '#' &&
-// 					ft_strccmp(room->name, tmp->next->name, ' ') == 0)
-// 				{
-// 					ft_printf("[%s] [%s]\n", tmp->next->name, room->name);
-// 					ft_exit("Error: Identical room");
-// 				}
-// 			}
-// 			ok++;
-// 			tmp = tmp->next;
-// 		}
-// 		ok1++;
-// 		room = room->next;
-// 	}
-// 	ok += ok1;
-// 	ft_putnbr(ok);
-// 	exit(0);
-// }
-
-/* **	FONCTION A PEUT-ETRE SUPPRIMER **
-int 	chr_tube(t_lem *lem, char *line)
+void	check__(t_room **room, char *line, t_lem *lem)
 {
-	int i;
-
-	(void)lem;
-	i = 0;
-	while (line[i] != '\0')
+	if (src_room(line, *room) == 1)
 	{
-		if (line[i] == '-' && (ft_str_isascii(line)))
-			return (1);
-		i++;
+		ft_error(line, 0);
+		add_room(room, line, 0);
 	}
-	return (0);
+	else if (src_room(line, *room) == 0 && ft_strchr(line, '-'))
+		add_tube(line, lem, *room);
+	else
+		ft_exit("Path3: Error: T'as rien a foutre la toi !");
 }
-** */
 
-int checkIfSame(t_room *room, char *newRoom)
+void	check_(t_room **room, char *line, t_lem *lem)
+{
+	while (ft_strcmp(line, "##start") == 0)
+	{
+		while (ft_strcmp(line, "##end") != 0 && *line == '#')
+			get_next_line(0, &line);
+		if (src_room(line, *room) == 1 && lem->pass2 == 0)
+		{
+			lem->pass2 = 1;
+			ft_error(line, 1);
+			add_room(room, line, 1);
+		}
+		else if ((*line != '#' && src_room(line, *room) == 0))
+			ft_exit("Path2: Error: T'as rien a foutre la toi !");
+	}
+}
+
+void	check(t_room **room, char *line, t_lem *lem)
+{
+	while (*line == '#')
+	{
+		while (ft_strcmp(line, "##end") == 0)
+		{
+			while (ft_strcmp(line, "##start") != 0 && *line == '#')
+				get_next_line(0, &line);
+			if (src_room(line, *room) == 1 && lem->pass == 0)
+			{
+				lem->pass = 1;
+				ft_error(line, 2);
+				add_room(room, line, 2);
+			}
+			else if ((*line != '#' && src_room(line, *room) == 0))
+				ft_exit("Path: Error: T'as rien a foutre la toi !");
+		}
+		check_(room, line, lem);
+		get_next_line(0, &line);
+	}
+	if (*line)
+		check__(room, line, lem);
+}
+
+int		check_if_same(t_room *room, char *room1)
 {
 	while (room)
 	{
-		if (!ft_strcmp(room->name, newRoom))
+		if (!ft_strcmp(room->name, room1))
 			return (1);
 		room = room->next;
 	}
 	return (0);
 }
 
-int		chr_room(char *line, t_room *room)
+int		src_room(char *line, t_room *room)
 {
-	int i;
-	int j;
-	char **str;
+	int		i;
+	int		j;
+	char	**str;
 
 	j = 1;
 	i = 0;
@@ -86,9 +89,9 @@ int		chr_room(char *line, t_room *room)
 	if (*str[0] == '\t')
 		ft_exit("Error: Tabulation");
 	if (!str[2])
-		return(0);
-	if (room && checkIfSame(room, str[0]))
-		ft_exit("Room already declared");
+		return (0);
+	if (room && check_if_same(room, str[0]))
+		ft_exit("Error: Room already declared");
 	while (str[j] != NULL && str[i] != NULL)
 	{
 		if (ft_str_isdigit(str[j]) && j != 2)
@@ -99,8 +102,6 @@ int		chr_room(char *line, t_room *room)
 		i++;
 	}
 	free(str);
-	if (i == 3 && j == 2)
-		return (1);
-	else
-		return (0);
+	i = (i == 3 && j == 2) ? 1 : 0;
+	return (i);
 }

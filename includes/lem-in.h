@@ -14,6 +14,14 @@
 # define LEM_IN_H
 #include "../libft/includes/libft.h"
 
+typedef struct			s_path
+{
+	int					start;
+	int					end;
+	char 				*name;
+	struct s_path		*next;
+}						t_path;
+
 typedef struct  		s_room
 {
 	char 				*name;
@@ -45,15 +53,17 @@ typedef	struct			s_lem
 	char				*end;
 }						t_lem;
 
+t_tube					*create_tube(t_room *room);
+void					check(t_room **room, char *line, t_lem *lem);
 void					reso_(t_room *room, t_room *tmp, t_lem *lem);
 void					reso(t_room *room);
 int 					search_way(char **s, t_room *room);
 void					ft_error(char *line, int u);
 void					check_room(t_room *room);
-int 					chr_tube(t_lem *lem, char *line);
-int						chr_room(char *line, t_room *room);
+int 					src_tube(t_lem *lem, char *line);
+int						src_room(char *line, t_room *room);
 void					print_anthill(t_tube *tube, t_room *room, t_lem *lem);
-void					error(t_room *room, t_lem *lem, char **s);
+void					error(t_lem *lem, char **s);
 void					parse(char *line, t_lem *lem);
 void					add_room(t_room **new, char *line, int start);
 void					add_tube(char *line, t_lem *lem, t_room *room);

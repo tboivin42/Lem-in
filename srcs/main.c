@@ -35,19 +35,13 @@ int		main(void)
 	t_lem	*lem;
 
 	if (get_next_line(0, &line) == -1)
-	{
-		ft_printf("Error: Not good files\n");
-		exit(1);
-	}
-	while (*line == '#' && ft_strcmp(line, "##start") != 0 
+		ft_exit("Error: Not good files");
+	while (*line == '#' && ft_strcmp(line, "##start") != 0
 		&& ft_strcmp(line, "##end") != 0)
 		get_next_line(0, &line);
 	lem = set_struct(line);
 	if (lem->ants <= 0 || lem->ants >= 2147483647 || *line == '-')
-	{
-		ft_printf("Error: False ants\n");
-		exit(1);
-	}
+		ft_exit("Error: False ants");
 	parse(line, lem);
 	return (0);
 }
