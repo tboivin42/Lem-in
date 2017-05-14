@@ -73,6 +73,22 @@ void	add_second_tube(t_room *full, char *s, t_room *room)
 	}
 }
 
+int		check_line(char *line)
+{
+	int i;
+	int j;
+
+	j = 0;
+	i = 0;
+	while (line[i] != '\0')
+	{
+		if (line[i] == '-')
+			j++;
+		i++;
+	}
+	return (j == 1);
+}
+
 void	add_tube(char *line, t_lem *lem, t_room *room)
 {
 	t_room	*tmp;
@@ -81,8 +97,12 @@ void	add_tube(char *line, t_lem *lem, t_room *room)
 
 	i = 0;
 	tmp = room;
+	s = NULL;
 	lem->start_tube = 1;
-	s = ft_strsplit(line, '-');
+	if (check_line(line) == 1)
+		s = ft_strsplit(line, '-');
+	else
+		ft_exit("Error: False tube");
 	error(lem, s);
 	if (search_way(s, room) == 0)
 		ft_exit("Error: No way");

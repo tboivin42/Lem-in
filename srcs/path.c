@@ -65,4 +65,5 @@ void	reso(t_room *room)
 	begin = room;
 	room->path = 0;
 	src_path(room, begin, tmp);
+	ft_putchar('\n');
 }

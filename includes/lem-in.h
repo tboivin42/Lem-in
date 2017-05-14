@@ -18,6 +18,7 @@ typedef struct			s_path
 {
 	int					start;
 	int					end;
+	int					ants;
 	char 				*name;
 	struct s_path		*next;
 }						t_path;
@@ -46,11 +47,14 @@ typedef	struct			s_lem
 	int					start_tube;
 	int					tamere;
 	int 				l;
+	int					ant;
+	int					i;
+	int					j;
 	int					pass;
 	int					pass2;
 	int					ants;
 	char				*start;
-	char				*end;
+	int					end;
 }						t_lem;
 
 t_tube					*create_tube(t_room *room);

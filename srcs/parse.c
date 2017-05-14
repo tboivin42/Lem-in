@@ -12,8 +12,7 @@
 
 #include "../includes/lem-in.h"
 
-
-t_path	*save_path(t_room *room)
+t_path	*save_path(t_room *room, t_lem *lem)
 {
 	t_path *new;
 
@@ -22,59 +21,98 @@ t_path	*save_path(t_room *room)
 	new->name = room->name;
 	new->start = (room->start == 1) ? 1 : 0;
 	new->end = (room->end == 1) ? : 0;
+	new->ants = (new->start == 1) ? lem->ants : 0;
 	new->next = NULL;
 	return (new);
 }
 
-void	add_back_path(t_path **path, t_room *room)
+char	*get_last_name(t_path *path)
+{
+	while (path->next)
+		path = path->next;
+	return (path->name);
+}
+void	add_back_path(t_path **path, t_room *room, t_lem *lem)
 {
 	t_path *tmp;
 
 	tmp = *path;
 	if (!*path)
 	{
-		*path = save_path(room);
+		*path = save_path(room, lem);
 		return ;
 	}
 	while (tmp->next)
 		tmp = tmp->next;
-	tmp->next = save_path(room);
+	tmp->next = save_path(room, lem);
 }
 
-void	print_nb_ants(t_path *path, int i)
+int			count_list_(t_path *path)
 {
-	ft_printf("L%d-%s\n", i, path->name);
+	int i;
+
+	i = 0;
+	while (path)
+	{
+		i++;
+		path = path->next;
+	}
+	return (i);
 }
+
+t_path		*count_list(t_path *path, int index)
+{
+	int i;
+
+	i = 1;
+	while (i != index)
+	{
+		i++;
+		path = path->next;
+	}
+	return (path);
+}
+
+void	print_a(t_lem *lem, t_path *path)
+{
+	path = count_list(path, lem->j);
+	// if (!ft_strcmp(path->name, lem->end))
+	// 	lem->i++;
+	if(lem->ant <= lem->ants)
+		ft_printf("L%d-%s ", lem->ant, path->name);
+}
+
 
 void	print_ants(t_lem *lem, t_path *path)
 {
-	static int i;
-	int j;
-	t_path *begin;
+	static int ok;
+	int end;
 
-	begin = path;
-	if (!i)
+	ok = 1;
+	end = 0;
+	lem->i = 1;
+	lem->ant = 1;
+	lem->end = count_list_(path);
+	while (1)
 	{
-		i = 1;
-		ft_printf("\n");
-	}
-	while (path)
-	{
-		j = i;
-		ft_printf("L%d-%s\n", i, path->name);
-		while (j != 0)
+		if (end == lem->ants)
+			break;
+		lem->j = lem->i;
+		while (lem->j > 0)
 		{
-			
+			print_a(lem, path);
+			lem->j--;
+			lem->ant++;
 		}
-		// print_nb_ants(path, i);
-		path = path->next;
-	}
-	path = begin;
-	i++;
-	if (i <= lem->ants)
-	{
+		if (lem->i == lem->end)
+		{
+			end++;
+			ok++;
+		}
+		else 
+			lem->i++;
+		lem->ant = ok;
 		ft_putchar('\n');
-		print_ants(lem, path);
 	}
 }
 
@@ -88,7 +126,7 @@ void	stock_path(t_lem *lem, t_room *room)
 	while (room->tube->room->path == 1)
 	{
 		room = room->tube->room;
-		add_back_path(&path, room);
+		add_back_path(&path, room, lem);
 		if (room->end == 1)
 			break ;
 	}

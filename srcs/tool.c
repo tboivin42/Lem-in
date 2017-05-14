@@ -73,3 +73,57 @@ int		search_way(char **s, t_room *room)
 	}
 	return (i == 2);
 }
+
+
+
+
+
+	// static int i;
+	// int j;
+	// int t;
+	// static int k;
+	// t_path *begin;
+
+	// begin = path;
+	// if (!k)
+	// 	k = 1;
+	// j = lem->ants;
+	// if (!i)
+	// {
+	// 	i = 1;
+	// 	ft_printf("L%d-%s\n", i, path->name);
+	// }
+	// else
+	// {
+	// 	while (i <= lem->ants)
+	// 	{
+	// 		while (path)
+	// 		{
+	// 			if (path->next)
+	// 			{
+	// 				if (t == 1)
+	// 					ft_printf("L%d-%s ", i, path->next->name);
+	// 				else
+	// 				{
+	// 					if (i - 1 == 0)
+	// 						ft_printf("L%d-%s ", i - 1, path->next->name);
+	// 					else
+	// 						ft_printf("L%d-%s ", i, path->next->name)
+	// 					t = 1;
+	// 				}
+	// 			}
+	// 			ft_printf("L%d-%s\n", i, path->name);
+	// 			path = path->next;
+	// 		}
+	// 		path = begin;
+	// 		i++;
+	// 	}
+	// }
+	// i = 1;
+	// // i++;
+	// // ft_putchar('\n');
+	// if (k <= lem->ants)
+	// {
+	// 	k++;
+	// 	print_ants(lem, path);
+	// }

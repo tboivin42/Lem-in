@@ -63,6 +63,7 @@ int					ft_isalnum_lem(int c);
 int					ft_str_isalnum_lem(char *str);
 int					ft_strcccmp(const char *s1, const char *s2, int c);
 int					ft_str_isascii(char *str);
+int					ft_power(int nb);
 
 void				*ft_memalloc(size_t size);
 void				ft_memdel(void **ap);
