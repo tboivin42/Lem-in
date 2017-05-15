@@ -10,7 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/lem-in.h"
+#include "../includes/lemin.h"
+
+int		check_line(char *line)
+{
+	int i;
+	int j;
+
+	j = 0;
+	i = 0;
+	while (line[i] != '\0')
+	{
+		if (line[i] == '-')
+			j++;
+		i++;
+	}
+	return (j == 1);
+}
 
 t_tube	*create_tube(t_room *room)
 {
@@ -21,16 +37,6 @@ t_tube	*create_tube(t_room *room)
 	new->room = room;
 	new->next = NULL;
 	return (new);
-}
-
-void	ft_error(char *line, int u)
-{
-	if (u == 0 && (line[0] == 'L' || line[0] == '#'))
-		ft_exit("Error: Fallait pas mettre de 'L' ou de '#' aujourd'hui");
-	else if (u == 1 && (*line == 'L' || *line == '#'))
-		ft_exit("Error: C'est pas la bonne entree");
-	else if (u == 2 && (*line == 'L' || *line == '#'))
-		ft_exit("Error: C'est pas la bonne sortie");
 }
 
 void	error(t_lem *lem, char **s)
@@ -73,57 +79,3 @@ int		search_way(char **s, t_room *room)
 	}
 	return (i == 2);
 }
-
-
-
-
-
-	// static int i;
-	// int j;
-	// int t;
-	// static int k;
-	// t_path *begin;
-
-	// begin = path;
-	// if (!k)
-	// 	k = 1;
-	// j = lem->ants;
-	// if (!i)
-	// {
-	// 	i = 1;
-	// 	ft_printf("L%d-%s\n", i, path->name);
-	// }
-	// else
-	// {
-	// 	while (i <= lem->ants)
-	// 	{
-	// 		while (path)
-	// 		{
-	// 			if (path->next)
-	// 			{
-	// 				if (t == 1)
-	// 					ft_printf("L%d-%s ", i, path->next->name);
-	// 				else
-	// 				{
-	// 					if (i - 1 == 0)
-	// 						ft_printf("L%d-%s ", i - 1, path->next->name);
-	// 					else
-	// 						ft_printf("L%d-%s ", i, path->next->name)
-	// 					t = 1;
-	// 				}
-	// 			}
-	// 			ft_printf("L%d-%s\n", i, path->name);
-	// 			path = path->next;
-	// 		}
-	// 		path = begin;
-	// 		i++;
-	// 	}
-	// }
-	// i = 1;
-	// // i++;
-	// // ft_putchar('\n');
-	// if (k <= lem->ants)
-	// {
-	// 	k++;
-	// 	print_ants(lem, path);
-	// }

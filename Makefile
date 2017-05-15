@@ -18,6 +18,9 @@ SRC		= srcs/main.c \
 		  srcs/tool.c \
 		  srcs/check.c \
 		  srcs/path.c \
+		  srcs/print.c \
+		  srcs/tool2.c \
+		  srcs/tool3.c \
 
 OBJ		= $(SRC:.c=.o)
 

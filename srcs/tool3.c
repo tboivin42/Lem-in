@@ -1,23 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*   tool3.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tboivin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/06 17:01:59 by tboivin           #+#    #+#             */
-/*   Updated: 2016/11/08 05:02:49 by tboivin          ###   ########.fr       */
+/*   Created: 2017/05/15 00:45:48 by tboivin           #+#    #+#             */
+/*   Updated: 2017/05/15 00:45:49 by tboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/lemin.h"
 
-int		ft_isalnum(int c)
+void	if_froom(char *line)
 {
-	return (ft_isalpha(c) || ft_isdigit(c));
+	int i;
+	int j;
+
+	j = 0;
+	i = 1;
+	while (line[i] != '\0')
+	{
+		if (line[i] == ' ' && ft_isdigit(line[i + 1]))
+			j++;
+		i++;
+	}
+	if (j == 2)
+		ft_exit("Error");
 }
 
-int		ft_isalnum_lem(int c)
+void	free_split(char **str)
 {
-	return (ft_isalpha(c) || ft_isdigit(c) || c == 45);
+	int i;
+
+	i = 0;
+	while (str[i] != NULL)
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);
 }

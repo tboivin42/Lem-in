@@ -10,19 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/lem-in.h"
+#include "../includes/lemin.h"
 
 void	check__(t_room **room, char *line, t_lem *lem)
 {
 	if (src_room(line, *room) == 1)
-	{
-		ft_error(line, 0);
 		add_room(room, line, 0);
-	}
 	else if (src_room(line, *room) == 0 && ft_strchr(line, '-'))
 		add_tube(line, lem, *room);
 	else
-		ft_exit("Path3: Error: T'as rien a foutre la toi !");
+		ft_exit("Path3: Error: False Room !");
 }
 
 void	check_(t_room **room, char *line, t_lem *lem)
@@ -30,16 +27,20 @@ void	check_(t_room **room, char *line, t_lem *lem)
 	while (ft_strcmp(line, "##start") == 0)
 	{
 		while (ft_strcmp(line, "##end") != 0 && *line == '#')
+		{
+			if_froom(line);
 			get_next_line(0, &line);
+		}
 		if (src_room(line, *room) == 1 && lem->pass2 == 0)
 		{
 			lem->pass2 = 1;
-			ft_error(line, 1);
 			add_room(room, line, 1);
 		}
 		else if ((*line != '#' && src_room(line, *room) == 0))
-			ft_exit("Path2: Error: T'as rien a foutre la toi !");
+			ft_exit("Path2: Error: False Room !");
 	}
+	if (*line == 'L' || *line == '#')
+		if_froom(line);
 }
 
 void	check(t_room **room, char *line, t_lem *lem)
@@ -49,15 +50,17 @@ void	check(t_room **room, char *line, t_lem *lem)
 		while (ft_strcmp(line, "##end") == 0)
 		{
 			while (ft_strcmp(line, "##start") != 0 && *line == '#')
+			{
+				if_froom(line);
 				get_next_line(0, &line);
+			}
 			if (src_room(line, *room) == 1 && lem->pass == 0)
 			{
 				lem->pass = 1;
-				ft_error(line, 2);
 				add_room(room, line, 2);
 			}
 			else if ((*line != '#' && src_room(line, *room) == 0))
-				ft_exit("Path: Error: T'as rien a foutre la toi !");
+				ft_exit("Path: Error: False Room !");
 		}
 		check_(room, line, lem);
 		get_next_line(0, &line);
@@ -86,8 +89,6 @@ int		src_room(char *line, t_room *room)
 	j = 1;
 	i = 0;
 	str = ft_strsplit(line, ' ');
-	if (*str[0] == '\t')
-		ft_exit("Error: Tabulation");
 	if (!str[2])
 		return (0);
 	if (room && check_if_same(room, str[0]))
@@ -101,7 +102,7 @@ int		src_room(char *line, t_room *room)
 		}
 		i++;
 	}
-	free(str);
 	i = (i == 3 && j == 2) ? 1 : 0;
+	free_split(str);
 	return (i);
 }

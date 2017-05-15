@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lem-in.h                                           :+:      :+:    :+:   */
+/*   lemin.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tboivin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,22 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEM_IN_H
-# define LEM_IN_H
-#include "../libft/includes/libft.h"
+#ifndef LEMIN_H
+# define LEMIN_H
+# include "../libft/includes/libft.h"
 
 typedef struct			s_path
 {
-	int					start;
-	int					end;
-	int					ants;
-	char 				*name;
+	char				*name;
 	struct s_path		*next;
 }						t_path;
 
-typedef struct  		s_room
+typedef struct			s_room
 {
-	char 				*name;
+	char				*name;
 	int					end;
 	int					path;
 	int					room;
@@ -34,42 +31,70 @@ typedef struct  		s_room
 	struct s_room		*next;
 }						t_room;
 
-typedef struct 			s_tube
+typedef struct			s_tube
 {
 	t_room				*room;
-	char				*name;
 	struct s_tube		*next;
-	struct s_tube 		*prev;
+	struct s_tube		*prev;
 }						t_tube;
 
 typedef	struct			s_lem
 {
 	int					start_tube;
-	int					tamere;
-	int 				l;
 	int					ant;
 	int					i;
 	int					j;
 	int					pass;
 	int					pass2;
-	int					ants;
-	char				*start;
 	int					end;
+	long long			ants;
 }						t_lem;
 
-t_tube					*create_tube(t_room *room);
-void					check(t_room **room, char *line, t_lem *lem);
-void					reso_(t_room *room, t_room *tmp, t_lem *lem);
-void					reso(t_room *room);
-int 					search_way(char **s, t_room *room);
-void					ft_error(char *line, int u);
-void					check_room(t_room *room);
-int 					src_tube(t_lem *lem, char *line);
-int						src_room(char *line, t_room *room);
-void					print_anthill(t_tube *tube, t_room *room, t_lem *lem);
-void					error(t_lem *lem, char **s);
+/*
+**						Parse.c
+*/
 void					parse(char *line, t_lem *lem);
+
+/*
+**						Add_lists.c
+*/
 void					add_room(t_room **new, char *line, int start);
 void					add_tube(char *line, t_lem *lem, t_room *room);
+
+/*
+**						Check.c
+*/
+int						src_room(char *line, t_room *room);
+void					check(t_room **room, char *line, t_lem *lem);
+
+/*
+**					Path.c
+*/
+void					reso(t_room *room);
+
+/*
+**					Print.c
+*/
+void					print_ants(t_lem *lem, t_path *path);
+/*
+**					Tool.c
+*/
+int						search_way(char **s, t_room *room);
+int						check_line(char *line);
+t_tube					*create_tube(t_room *room);
+void					error(t_lem *lem, char **s);
+/*
+**					Tool2.c
+*/
+void					free_list(t_path **path);
+void					add_back_path(t_path **path, t_room *room);
+t_path					*list_until(t_path *path, int index);
+int						count_list(t_path *path);
+
+/*
+**					Tool3.c
+*/
+void					if_froom(char *line);
+void					free_split(char **str);
 
 #endif

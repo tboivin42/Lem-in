@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/lem-in.h"
+#include "../includes/lemin.h"
 
 t_lem	*set_struct(char *line)
 {
@@ -20,14 +20,11 @@ t_lem	*set_struct(char *line)
 		return (NULL);
 	lem->start_tube = 0;
 	lem->ants = ft_atoi(line);
-	lem->l = 0;
 	lem->i = 0;
 	lem->j = 0;
 	lem->ant = 0;
 	lem->pass = 0;
-	lem->tamere = 0;
 	lem->pass2 = 0;
-	lem->start = NULL;
 	lem->end = 0;
 	return (lem);
 }
@@ -45,9 +42,10 @@ int		main(void)
 		get_next_line(0, &line);
 	lem = set_struct(line);
 	i = ft_power(lem->ants);
-	if (lem->ants <= 0 || lem->ants >= 2147483647 || i > 10 
+	if (lem->ants <= 0 || lem->ants >= 2147483647 || i > 10
 		|| *line == '-')
 		ft_exit("Error: False ants");
 	parse(line, lem);
+	free(lem);
 	return (0);
 }

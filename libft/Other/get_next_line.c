@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/get_next_line.h"
-#include <stdio.h>
+#include "get_next_line.h"
 
 char			*fill_line(char *line, char *buf)
 {
@@ -82,6 +81,16 @@ static int		malloker(t_struct **gnl, char **line, int fd)
 	return (0);
 }
 
+int				get_(t_struct *gnl, char *line)
+{
+	if ((gnl->b2 = ft_strchr(gnl->b1, '\n')))
+	{
+		ft_putendl(line);
+		return (1);
+	}
+	return (0);
+}
+
 int				get_next_line(int const fd, char **line)
 {
 	static t_struct		*gnl = NULL;
@@ -104,11 +113,8 @@ int				get_next_line(int const fd, char **line)
 			return (-1);
 		gnl->b1[rd] = '\0';
 		*line = fill_line(*line, gnl->b1);
-		if ((gnl->b2 = ft_strchr(gnl->b1, '\n')))
-		{
-			ft_putendl(*line);
+		if (get_(gnl, *line) == 1)
 			return (1);
-		}
 	}
 	ft_putstr(*line);
 	return ((rd || **line) ? 1 : 0);

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/lem-in.h"
+#include "../includes/lemin.h"
 
 void	src_path_(t_room **room, t_room **tmp, t_room *tmp2, t_room *begin)
 {
@@ -25,6 +25,17 @@ void	src_path_(t_room **room, t_room **tmp, t_room *tmp2, t_room *begin)
 	*room = begin;
 }
 
+void	stop_(t_room *begin)
+{
+	while (begin)
+	{
+		if (begin->path == 0)
+			return ;
+		begin = begin->next;
+	}
+	ft_exit("Error: No links to the end");
+}
+
 void	src_path(t_room *room, t_room *begin, t_room *tmp)
 {
 	t_room *tmp2;
@@ -32,6 +43,7 @@ void	src_path(t_room *room, t_room *begin, t_room *tmp)
 	tmp2 = tmp;
 	while (room && (room->end != 1))
 	{
+		(!begin->tube) ? ft_exit("Error: No links") : stop_(begin->tube->room);
 		if (room->tube)
 		{
 			if (room->tube->room->path == 0)
@@ -56,14 +68,11 @@ void	reso(t_room *room)
 {
 	t_room	*tmp;
 	t_room	*begin;
-	int		i;
 
-	i = 0;
 	tmp = room;
 	while (room && room->start != 1)
 		room = room->next;
 	begin = room;
-	room->path = 0;
+	room->path = 2;
 	src_path(room, begin, tmp);
-	ft_putchar('\n');
 }

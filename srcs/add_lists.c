@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/lem-in.h"
+#include "../includes/lemin.h"
 
 t_room	*create_room(char *line, int start)
 {
@@ -71,22 +71,6 @@ void	add_second_tube(t_room *full, char *s, t_room *room)
 		}
 		full = full->next;
 	}
-}
-
-int		check_line(char *line)
-{
-	int i;
-	int j;
-
-	j = 0;
-	i = 0;
-	while (line[i] != '\0')
-	{
-		if (line[i] == '-')
-			j++;
-		i++;
-	}
-	return (j == 1);
 }
 
 void	add_tube(char *line, t_lem *lem, t_room *room)
