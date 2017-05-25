@@ -35,6 +35,7 @@ void	check_(t_room **room, char *line, t_lem *lem)
 		{
 			lem->pass2 = 1;
 			add_room(room, line, 1);
+			free(line);
 		}
 		else if ((*line != '#' && src_room(line, *room) == 0))
 			ft_exit("Path2: Error: False Room !");
@@ -58,6 +59,7 @@ void	check(t_room **room, char *line, t_lem *lem)
 			{
 				lem->pass = 1;
 				add_room(room, line, 2);
+				free(line);
 			}
 			else if ((*line != '#' && src_room(line, *room) == 0))
 				ft_exit("Path: Error: False Room !");

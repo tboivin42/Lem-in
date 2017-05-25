@@ -64,6 +64,13 @@ int					ft_str_isalnum_lem(char *str);
 int					ft_strcccmp(const char *s1, const char *s2, int c);
 int					ft_str_isascii(char *str);
 int					ft_power(int nb);
+char				*ft_litoa(long int n);
+char				*ft_luitoa(unsigned long int n);
+char				*ft_uitoa(unsigned int n);
+char				*ft_itoa(int n);
+char				*ft_litoa_base_neg(unsigned long int n, int nb_base, int i);
+char				*ft_itoa_base_neg(unsigned int n, int nb_base, int i);
+char				*ft_itoa_base(long int n, int nb_base, int i);
 
 void				*ft_memalloc(size_t size);
 void				ft_memdel(void **ap);

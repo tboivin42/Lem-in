@@ -34,6 +34,14 @@ void	stock_path(t_lem *lem, t_room *room)
 	free_list(&path);
 }
 
+void	parse_(t_lem *lem, t_room *room)
+{
+	if (lem->start_tube == 0)
+		ft_exit("Error: No links");
+	reso(room);
+	stock_path(lem, room);
+}
+
 void	parse(char *line, t_lem *lem)
 {
 	t_room	*room;
@@ -46,18 +54,19 @@ void	parse(char *line, t_lem *lem)
 		if (*line == '#')
 			check(&room, line, lem);
 		else if (*line && ft_strchr(line, '-'))
+		{
 			add_tube(line, lem, room);
+			free(line);
+		}
 		else if (*line && src_room(line, room) == 1)
 		{
 			if (lem->start_tube == 1)
 				break ;
 			add_room(&room, line, 0);
+			free(line);
 		}
 		else
 			ft_exit("Parse: Error");
 	}
-	if (lem->start_tube == 0)
-		ft_exit("Error: No links");
-	reso(room);
-	stock_path(lem, room);
+	parse_(lem, room);
 }

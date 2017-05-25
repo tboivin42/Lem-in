@@ -27,6 +27,7 @@ void	if_froom(char *line)
 	}
 	if (j == 2)
 		ft_exit("Error");
+	free(line);
 }
 
 void	free_split(char **str)

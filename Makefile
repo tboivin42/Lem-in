@@ -12,32 +12,39 @@
 
 NAME	= lem-in
 
-SRC		= srcs/main.c \
-		  srcs/add_lists.c \
-		  srcs/parse.c \
-		  srcs/tool.c \
-		  srcs/check.c \
-		  srcs/path.c \
-		  srcs/print.c \
-		  srcs/tool2.c \
-		  srcs/tool3.c \
+SRC		= main.c \
+		  add_lists.c \
+		  parse.c \
+		  tool.c \
+		  check.c \
+		  path.c \
+		  print.c \
+		  tool2.c \
+		  tool3.c \
 
-OBJ		= $(SRC:.c=.o)
+OBJ		= $(addprefix srcs/,$(SRC:.c=.o))
 
-CFLAGS	= -Wall -Wextra -Werror -g -I includes/
+INCLUDES = ./includes/lemin.h 
 
-$(NAME): $(OBJ)
-	@make -C libft
-	@gcc $(OBJ) -o $(NAME) -L libft/ -lft -I libft/includes/
+ALL_FLAGS = -Wall -Wextra -Werror
+CFLAGS	=  $(ALL_FLAGS) -I./includes/ -I./libft/includes/
 
-all: $(NAME)
+all: $(INCLUDES) makefile libft $(NAME)
+
+libft:
+	@make -C ./libft
+
+$(NAME): libft $(OBJ) $(INCLUDES)
+	@gcc $(OBJ) -o $(NAME)  -L./libft -lft
 
 clean:
-	@make -C libft/ clean
+	@make clean -C ./libft
 	@rm -rf $(OBJ)
 
 fclean: clean
 	@rm -rf $(NAME) $(OBJ)
-	@make -C libft/ fclean
+	@make fclean -C ./libft
 
-re: fclean $(NAME)
+re: fclean all
+
+.PHONY: clean fclean re libft all

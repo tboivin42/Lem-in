@@ -17,7 +17,7 @@ t_room	*create_room(char *line, int start)
 	t_room *new;
 
 	if (!(new = (t_room*)malloc(sizeof(t_room))))
-		return (NULL);
+		ft_exit("Error: Failed to malloc");
 	new->name = ft_strsub(line, 0, ft_strclen(line, ' '));
 	new->room = (start == 0) ? 1 : 0;
 	new->start = (start == 1) ? 1 : 0;
@@ -33,6 +33,8 @@ void	add_room(t_room **new, char *line, int start)
 	t_room *tmp;
 
 	tmp = (*new);
+	if (*line == '#' || *line == 'L')
+		ft_exit("Error");
 	if (!(*new))
 	{
 		(*new) = create_room(line, start);
@@ -96,4 +98,6 @@ void	add_tube(char *line, t_lem *lem, t_room *room)
 			add_second_tube(tmp, s[1], room);
 		room = room->next;
 	}
+	if (s)
+		free_split(s);
 }

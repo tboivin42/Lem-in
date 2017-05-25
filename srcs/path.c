@@ -12,6 +12,20 @@
 
 #include "../includes/lemin.h"
 
+void	free_room(t_room **room)
+{
+	t_room *tmp;
+
+	while (*room)
+	{
+		tmp = *room;
+		*room = (*room)->next;
+		free(tmp->name);
+		free(tmp);
+	}
+	free(*room);
+}
+
 void	src_path_(t_room **room, t_room **tmp, t_room *tmp2, t_room *begin)
 {
 	(*room)->path = 2;

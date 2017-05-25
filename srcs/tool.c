@@ -33,7 +33,7 @@ t_tube	*create_tube(t_room *room)
 	t_tube *new;
 
 	if (!(new = (t_tube*)malloc(sizeof(t_tube))))
-		return (NULL);
+		ft_exit("Error: Failed to malloc");
 	new->room = room;
 	new->next = NULL;
 	return (new);

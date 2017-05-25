@@ -17,7 +17,7 @@ t_lem	*set_struct(char *line)
 	t_lem *lem;
 
 	if (!(lem = (t_lem*)malloc(sizeof(t_lem))))
-		return (NULL);
+		ft_exit("Error: Failed to malloc");
 	lem->start_tube = 0;
 	lem->ants = ft_atoi(line);
 	lem->i = 0;
@@ -39,11 +39,14 @@ int		main(void)
 		ft_exit("Error: Not good files");
 	while (*line == '#' && ft_strcmp(line, "##start") != 0
 		&& ft_strcmp(line, "##end") != 0)
+	{
+		free(line);
 		get_next_line(0, &line);
+	}
 	lem = set_struct(line);
 	i = ft_power(lem->ants);
-	if (lem->ants <= 0 || lem->ants >= 2147483647 || i > 10
-		|| *line == '-')
+	if (lem->ants <= 0 || lem->ants > 2147483647 || i > 10
+		|| *line == '-' || !ft_str_isdigit(line) || line[11])
 		ft_exit("Error: False ants");
 	parse(line, lem);
 	free(lem);

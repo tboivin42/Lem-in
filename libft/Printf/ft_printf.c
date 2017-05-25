@@ -5,80 +5,67 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tboivin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/08 20:37:03 by tboivin           #+#    #+#             */
-/*   Updated: 2017/04/08 20:48:32 by tboivin          ###   ########.fr       */
+/*   Created: 2016/12/12 16:47:19 by tboivin           #+#    #+#             */
+/*   Updated: 2017/03/06 07:46:21 by tboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		ft_print_until(t_conv *c)
+void	ft_init(t_stock *s)
 {
-	int i;
+	char		*n_arg;
+	t_flag		*f;
 
-	i = 0;
-	while (c->str[i] && c->str[i] != '%')
+	f = set_flags(s->fd);
+	if (!(n_arg = ft_strchr(s->str, '%')))
 	{
-		ft_putchar_fd(c->str[i], c->fd);
-		i++;
+		free(f);
+		return ;
 	}
-	return (i);
-}
-
-int		ft_init(t_conv *c)
-{
-	int		i;
-	t_flags *f;
-
-	f = start_struct();
-	if (!(c->str = ft_strchr(c->str, '%')))
-		return (c->final_len);
-	c->str++;
-	while ((i = ft_get_conv(*c->str, f)) == -1)
-	{
-		ft_get_flags(c->str, f);
-		c->str++;
-	}
-	if (c->str)
-		c->str++;
-	handle(f, c);
-	c->final_len += ft_print_until(c);
-	c->s = ft_strnew(0);
+	f->color_nfun = s->color_nfun;
+	n_arg++;
+	f->b_sta = 0;
+	s->tmp = n_arg;
+	while ((get_conv(n_arg, f)))
+		get_flags(n_arg++, f);
+	get_bonus(s, f);
+	s->tmp = (n_arg + 1);
+	handles_conv(f, s);
+	s->f_len += putstr_per(s->tmp, f->fd);
+	s->f_len += f->final_len;
+	s->str = s->tmp;
 	free(f);
-	ft_init(c);
-	return (c->final_len);
+	ft_init(s);
 }
 
 int		ft_dprintf(int fd, const char *format, ...)
 {
-	t_conv	*c;
+	t_stock	*s;
 
-	c = start_conv(fd);
-	va_start(c->ag, format);
-	c->str = (char*)format;
-	return (ft_vprintf(c));
+	s = set_stock(format, fd);
+	va_start(s->aps, format);
+	return (ft_vdprintf(s));
 }
 
 int		ft_printf(const char *format, ...)
 {
-	t_conv	*c;
+	t_stock	*s;
 
-	c = start_conv(1);
-	va_start(c->ag, format);
-	c->str = (char*)format;
-	return (ft_vprintf(c));
+	s = set_stock(format, 1);
+	va_start(s->aps, format);
+	return (ft_vdprintf(s));
 }
 
-int		ft_vprintf(t_conv *c)
+int		ft_vdprintf(t_stock *s)
 {
-	int		len;
+	size_t	flen;
 
-	len = 0;
-	c->final_len = 0;
-	len = ft_print_until(c);
-	len += ft_init(c);
-	va_end(c->ag);
-	free_struct(c);
-	free(c);
-	return (len);
+	color_fun(s);
+	flen = putstr_per(s->str, s->fd);
+	ft_init(s);
+	flen += s->f_len;
+	va_end(s->aps);
+	free(s);
+	return (flen);
 }

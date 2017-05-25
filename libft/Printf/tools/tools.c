@@ -5,96 +5,64 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tboivin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/06 18:07:43 by tboivin           #+#    #+#             */
-/*   Updated: 2017/01/06 18:08:28 by tboivin          ###   ########.fr       */
+/*   Created: 2016/12/20 23:12:00 by tboivin           #+#    #+#             */
+/*   Updated: 2017/03/20 05:46:25 by tboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		ft_cstrwlen_(t_conv *c, t_flags *f, int size)
+int		if_so(char conv, char *symb)
 {
-	if (size <= 16)
+	char *tmp;
+
+	tmp = NULL;
+	if (symb)
+		tmp = symb;
+	while (symb && *symb)
 	{
-		if (c->wi + 3 > f->preci && (f->preci != 0 || f->point == 1))
-			return (-1);
-		c->wi += 3;
-	}
-	else
-	{
-		if (c->wi + 4 > f->preci && (f->preci != 0 || f->point == 1))
-			return (-1);
-		c->wi += 4;
+		if (conv == *symb)
+			return (symb - tmp);
+		symb++;
 	}
 	return (0);
 }
 
-int		ft_cstrwlen(t_conv *c, t_flags *f)
+int		putstr_per(char *str, int fd)
 {
-	int				size;
+	size_t i;
 
-	size = count_bits(*c->wtmp);
-	if (size <= 7)
-	{
-		if (c->wi + 1 > f->preci && (f->preci != 0 || f->point == 1))
-			return (-1);
-		c->wi++;
-		return (0);
-	}
-	else if (size <= 11)
-	{
-		if (c->wi + 2 > f->preci && (f->preci != 0 || f->point == 1))
-			return (-1);
-		c->wi += 2;
-	}
-	else if ((ft_cstrwlen_(c, f, size)) == -1)
-		return (-1);
-	return (0);
+	i = 0;
+	while (str[i] && str[i] != '%')
+		i++;
+	write(fd, str, i);
+	return (i);
 }
 
-size_t	ft_strnwlen(t_conv *c, t_flags *f)
+char	*ft_strjoin_three(char *s1, char *s2, char *s3)
 {
-	c->wi = 0;
-	c->wtmp = c->ws;
-	while (c->wtmp && *c->wtmp)
-	{
-		if (ft_cstrwlen(c, f) == -1)
-			return (c->wi);
-		c->wtmp++;
-	}
-	return (c->wi);
+	char	*d;
+	char	*tmp;
+
+	if (!s1 || !s2 || !s3)
+		return (NULL);
+	tmp = ft_strjoin(s1, s2);
+	d = ft_strjoin(tmp, s3);
+	ft_strdel(&tmp);
+	return (d);
 }
 
-void	*ft_strset(int c, size_t len)
+char	*ft_strjoin_four(char *s1, char *s2, char *s3, char *s4)
 {
-	char *s;
+	char	*d;
+	char	*tmp;
 
-	s = ft_strnew(len);
-	while (len > 0)
-	{
-		len--;
-		s[len] = c;
-	}
-	return (s);
-}
-
-int		ft_putnwchar_(t_conv *c, t_flags *f, size_t v, int size)
-{
-	if (size <= 16)
-	{
-		if ((c->wi += 3) > f->preci && (f->preci != 0 || f->point == 1))
-			return (-1);
-		ft_putchar(((v >> 12) & 15) | 224);
-		ft_putchar(((v >> 6) & 63) | 128);
-	}
-	else
-	{
-		if ((c->wi += 4) > f->preci && (f->preci != 0 || f->point == 1))
-			return (-1);
-		ft_putchar(((v >> 18) & 7) | 240);
-		ft_putchar(((v >> 12) & 63) | 128);
-		ft_putchar(((v >> 6) & 63) | 128);
-	}
-	ft_putchar((v & 63) | 128);
-	return (0);
+	if (!s1 || !s2 || !s3 || !s4)
+		return (NULL);
+	d = ft_strjoin(s1, s2);
+	tmp = ft_strjoin(d, s3);
+	ft_strdel(&d);
+	d = ft_strjoin(tmp, s4);
+	ft_strdel(&tmp);
+	return (d);
 }
